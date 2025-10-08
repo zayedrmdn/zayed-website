@@ -49,9 +49,10 @@ export const projects: Project[] = [
     id: "portfolio-website",
     title: "Personal Portfolio Website",
     description: "Modern, responsive portfolio website built with Next.js 15, featuring dark mode, animations, and comprehensive theme system following next-themes best practices.",
-    image: "/images/projects/portfolio.png",
+    image: "/projects/portfolio.png",
     tags: ["Next.js", "TypeScript", "Tailwind CSS", "Framer Motion", "next-themes"],
-    liveUrl: "https://zayedrmdn.com",
+    githubUrl: "https://github.com/zayedrmdn/zayed-website",
+    liveUrl: "https://zayed-murex.vercel.app/",
     featured: true,
   }
 ];
