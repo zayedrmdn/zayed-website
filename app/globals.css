@@ -1,26 +1,200 @@
 @import "tailwindcss";
 
+/* ==========================================================
+   LIGHT THEME (Modern Minimal with Neon Blue Accents)
+   ========================================================== */
+/* Light mode keeps a clean white base with blue-cyan neon
+   highlights for interactivity. Think "tech portfolio" on
+   bright paper. */
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  /* ==== General Page Colors ==== */
+  --background: 210 40% 98%;              /* Page background (almost white) */
+  --foreground: 222 47% 11%;              /* Main text color (dark navy) */
+
+  /* ==== Cards and Popovers ==== */
+  --card: 0 0% 100%;                      /* Card background (white) */
+  --card-foreground: 222 47% 11%;         /* Text inside cards (dark navy) */
+  --popover: 0 0% 100%;                   /* Tooltip / popup background */
+  --popover-foreground: 222 47% 11%;      /* Popup text */
+
+  /* ==== Primary Accent (used for main buttons, links, focus rings) ==== */
+  --primary: 198 100% 45%;                /* Neon cyan-blue (#00B8FF) */
+  --primary-foreground: 210 40% 98%;      /* White text on primary */
+
+  /* ==== Secondary Accent (subtle neutral surfaces and secondary buttons) ==== */
+  --secondary: 210 40% 96%;               /* Pale slate-gray background */
+  --secondary-foreground: 222 47% 11%;    /* Text on secondary buttons */
+
+  /* ==== Muted / Disabled Elements ==== */
+  --muted: 210 40% 96%;                   /* Muted background (cards, borders) */
+  --muted-foreground: 215 16% 47%;        /* Muted text color */
+
+  /* ==== Accent (hover glows, highlights, links, icons) ==== */
+  --accent: 200 95% 50%;                  /* Bright cyan-blue glow accent */
+  --accent-foreground: 210 40% 98%;       /* White on accent */
+
+  /* ==== Destructive / Error Elements ==== */
+  --destructive: 0 84% 63%;               /* Red tone for errors (#EF4444) */
+  --destructive-foreground: 210 40% 98%;  /* White text on error */
+
+  /* ==== Borders, Inputs, Focus Rings ==== */
+  --border: 213 27% 84%;                  /* Light gray borders (#D1D5DB) */
+  --input: 214 32% 91%;                   /* Input field background (#E2E8F0) */
+  --ring: 198 100% 45%;                   /* Focus outline (same as primary neon) */
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+/* ==========================================================
+   DARK THEME (Cyber Mode – Techy Neon Blue Glow)
+   ========================================================== */
+/* Dark mode is designed for a futuristic aesthetic:
+   - Dark navy background
+   - Neon cyan gradients for interactivity
+   - High contrast white/cyan text
+*/
+.dark {
+  /* ==== General Page Colors ==== */
+  --background: 222 47% 10%;              /* Deep navy background (#0B1120) */
+  --foreground: 210 20% 92%;              /* Primary text (soft white) */
+
+  /* ==== Cards and Popovers ==== */
+  --card: 222 47% 13%;                    /* Slightly lighter navy (cards) */
+  --card-foreground: 210 20% 92%;         /* Text inside cards */
+  --popover: 222 47% 13%;                 /* Dropdown / popover background */
+  --popover-foreground: 210 20% 92%;      /* Popover text */
+
+  /* ==== Primary Accent (Main Button / Call-to-Action) ==== */
+  --primary: 195 100% 55%;                /* Electric cyan-blue (#00D8FF) */
+  --primary-foreground: 222 47% 10%;      /* Dark text (for contrast on bright buttons) */
+
+  /* ==== Secondary Accent (Low-contrast elements, ghost buttons) ==== */
+  --secondary: 222 27% 18%;               /* Dark gray-blue background */
+  --secondary-foreground: 210 20% 92%;    /* Light text */
+
+  /* ==== Muted / Disabled Elements ==== */
+  --muted: 222 27% 18%;                   /* Dark muted gray-blue surfaces */
+  --muted-foreground: 215 15% 65%;        /* Dimmed gray text */
+
+  /* ==== Accent (Hover glows, link highlights, icons, subtle glow borders) ==== */
+  --accent: 190 100% 65%;                 /* Vibrant glowing cyan */
+  --accent-foreground: 222 47% 10%;       /* Dark text for contrast */
+
+  /* ==== Destructive / Error ==== */
+  --destructive: 0 91% 71%;               /* Soft red alert tone (#F87171) */
+  --destructive-foreground: 210 40% 98%;  /* White text on red */
+
+  /* ==== Borders, Inputs, Focus Rings ==== */
+  --border: 217 33% 20%;                  /* Dark border lines (subtle contrast) */
+  --input: 215 25% 27%;                   /* Input background (charcoal navy) */
+  --ring: 195 100% 55%;                   /* Neon blue focus ring */
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+/* ==========================================================
+   BASE UI STYLES (Apply color variables consistently)
+   ========================================================== */
+
+/* Every element respects the theme border color */
+* {
+  box-sizing: border-box;
+  border-color: hsl(var(--border));
+}
+
+/* Page body: text + background */
+body {
+  font-family: var(--font-geist-sans), -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  background-color: hsl(var(--background));
+  color: hsl(var(--foreground));
+  transition: background-color 0.3s, color 0.2s;
+  min-height: 100vh;
+}
+
+/* ==========================================================
+   SCROLLBAR (neon blue thumb for both themes)
+   ========================================================== */
+::-webkit-scrollbar {
+  width: 8px;
+}
+::-webkit-scrollbar-track {
+  background-color: #f1f5f9; /* Light gray track */
+}
+.dark ::-webkit-scrollbar-track {
+  background-color: #0a0f1a; /* Dark navy track */
+}
+::-webkit-scrollbar-thumb {
+  background-color: #38bdf8; /* Cyan-400 thumb */
+  border-radius: 0.25rem;
+}
+.dark ::-webkit-scrollbar-thumb {
+  background-color: #00d8ff; /* Bright neon cyan */
+}
+::-webkit-scrollbar-thumb:hover {
+  background-color: #0ea5e9; /* Hover blue */
+}
+.dark ::-webkit-scrollbar-thumb:hover {
+  background-color: #67e8f9; /* Brighter hover glow */
+}
+
+/* ==========================================================
+   SELECTION (highlight text selections with neon tint)
+   ========================================================== */
+::selection {
+  background-color: rgba(0, 184, 255, 0.3);
+  color: #000;
+}
+.dark ::selection {
+  background-color: rgba(0, 216, 255, 0.35);
+  color: #fff;
+}
+
+/* ==========================================================
+   FOCUS RING (used in forms and button outlines)
+   ========================================================== */
+.focus-visible:focus-visible {
+  outline: 2px solid hsl(var(--ring));
+  outline-offset: 2px;
+}
+
+/* ==========================================================
+   REDUCED MOTION (for accessibility)
+   ========================================================== */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
   }
 }
 
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+/* ==========================================================
+   GRADIENT SHIFT (for elements with animate-gradient)
+   ========================================================== */
+@keyframes gradient-shift {
+  0%, 100% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+}
+.animate-gradient {
+  background-size: 300% 300%;
+  animation: gradient-shift 6s ease infinite;
+}
+
+/* ==========================================================
+   THEME-AWARE ELEMENT VISIBILITY (for next-themes)
+   ========================================================== */
+[data-theme='dark'] [data-hide-on-theme='dark'],
+[data-theme='light'] [data-hide-on-theme='light'] {
+  display: none !important;
+}
+
+/* ==========================================================
+   SMOOTH THEME TRANSITIONS
+   ========================================================== */
+* {
+  transition-property: color, background-color, border-color, text-decoration-color, fill, stroke;
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+  transition-duration: 150ms;
+}
+.theme-transitioning * {
+  transition: none !important;
 }

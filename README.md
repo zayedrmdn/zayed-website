@@ -1,36 +1,67 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Portfolio Website
+
+Personal portfolio built with Next.js 15, TypeScript, and Tailwind CSS.
+
+## Tech Stack
+
+- **Framework**: Next.js 15 with App Router
+- **Language**: TypeScript
+- **Styling**: Tailwind CSS with CSS variables
+- **Animations**: Framer Motion
+- **Theming**: next-themes
+- **Form**: React Hook Form + Zod validation
+- **Email**: Resend API
+- **Icons**: Lucide React
 
 ## Getting Started
 
-First, run the development server:
-
+Install dependencies:
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+npm install
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Set up environment variables:
+```bash
+cp .env.example .env.local
+# Add your Resend API key and other variables
+```
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+Run development server:
+```bash
+npm run dev
+```
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+Open [http://localhost:3000](http://localhost:3000) in your browser.
 
-## Learn More
+## Features
 
-To learn more about Next.js, take a look at the following resources:
+- Responsive design with mobile-first approach
+- Light/dark theme with system preference detection
+- Working contact form with email notifications
+- Smooth animations and micro-interactions
+- SEO optimized with proper meta tags
+- Accessible with keyboard navigation support
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## Environment Variables
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+Required variables in `.env.local`:
 
-## Deploy on Vercel
+- `RESEND_API_KEY` - Your Resend API key for email functionality
+- `EMAIL_FROM` - Sender email address
+- `EMAIL_TO` - Your email address for receiving messages
+- `SITE_URL` - Your website URL
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+## Deployment
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+The site is optimized for deployment on Vercel:
+
+1. Connect your GitHub repository to Vercel
+2. Add environment variables in Vercel dashboard
+3. Deploy automatically on push to main branch
+
+## Project Structure
+
+- `app/` - Next.js app router pages and API routes
+- `components/` - React components organized by type
+- `lib/` - Utilities, data, and configurations
+- `public/` - Static assets and images
