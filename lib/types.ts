@@ -68,5 +68,6 @@ export type Theme = "light" | "dark";
 export interface ContactFormData {
   name: string;
   email: string;
-  message: string;
+  inquiryType: string;
+  message?: string;
 }

@@ -1,6 +1,6 @@
 // Contact.tsx
 "use client";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
@@ -16,8 +16,18 @@ import { ContactFormData } from "@/lib/types";
 const contactSchema = z.object({
   name: z.string().min(2, "Name must be at least 2 characters"),
   email: z.string().email("Please enter a valid email address"),
-  message: z.string().min(10, "Message must be at least 10 characters"),
+  inquiryType: z.string().min(1, "Please select an inquiry type"),
+  message: z.string().optional(),
 });
+
+const inquiryTypes = [
+  { value: "", label: "Select inquiry type" },
+  { value: "resume", label: "Request for Latest Resume" },
+  { value: "collaboration", label: "Collaboration Opportunity" },
+  { value: "job", label: "Job Opportunity" },
+  { value: "project", label: "Project Discussion" },
+  { value: "general", label: "General Inquiry" },
+];
 
 export default function Contact() {
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -26,10 +36,24 @@ export default function Contact() {
     register,
     handleSubmit,
     reset,
+    setValue,
     formState: { errors },
   } = useForm<ContactFormData>({
     resolver: zodResolver(contactSchema),
   });
+
+  useEffect(() => {
+    const handleInquirySelection = (event: CustomEvent) => {
+      if (event.detail === 'resume') {
+        setValue('inquiryType', 'resume');
+      }
+    };
+
+    window.addEventListener('selectInquiryType', handleInquirySelection as EventListener);
+    return () => {
+      window.removeEventListener('selectInquiryType', handleInquirySelection as EventListener);
+    };
+  }, [setValue]);
 
   const onSubmit = async (data: ContactFormData) => {
     setIsSubmitting(true);
@@ -249,13 +273,48 @@ export default function Contact() {
                     )}
                   </div>
 
+                  {/* Inquiry Type Field */}
+                  <div>
+                    <label 
+                      htmlFor="inquiryType" 
+                      className="block text-sm font-medium text-foreground mb-2"
+                    >
+                      Inquiry Type *
+                    </label>
+                    <select
+                      {...register("inquiryType")}
+                      id="inquiryType"
+                      className={`
+                        w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-accent focus:border-accent transition-all duration-200
+                        bg-input text-foreground
+                        hover:border-accent/50 hover:shadow-sm hover:shadow-accent/10
+                        [&>option]:bg-card [&>option]:text-card-foreground
+                        ${errors.inquiryType 
+                          ? 'border-destructive focus:ring-destructive focus:border-destructive' 
+                          : 'border-border'
+                        }
+                      `}
+                    >
+                      {inquiryTypes.map((type) => (
+                        <option key={type.value} value={type.value} className="bg-card text-card-foreground">
+                          {type.label}
+                        </option>
+                      ))}
+                    </select>
+                    {errors.inquiryType && (
+                      <p className="mt-1 text-sm text-destructive">
+                        {errors.inquiryType.message}
+                      </p>
+                    )}
+                  </div>
+
                   {/* Message Field */}
                   <div>
                     <label 
                       htmlFor="message" 
                       className="block text-sm font-medium text-foreground mb-2"
                     >
-                      Message *
+                      Additional Message (Optional)
                     </label>
                     <textarea
                       {...register("message")}
@@ -270,7 +329,7 @@ export default function Contact() {
                           : 'border-border'
                         }
                       `}
-                      placeholder="Tell me about your project or just say hello..."
+                      placeholder="Any additional details you'd like to share? (Optional)"
                     />
                     {errors.message && (
                       <p className="mt-1 text-sm text-destructive">

@@ -32,6 +32,16 @@ export default function Navbar() {
     }
   };
 
+  const handleResumeRequest = () => {
+    setIsOpen(false);
+    document.getElementById('contact')?.scrollIntoView({ behavior: 'smooth' });
+    // Trigger resume request selection after scroll
+    setTimeout(() => {
+      const event = new CustomEvent('selectInquiryType', { detail: 'resume' });
+      window.dispatchEvent(event);
+    }, 800);
+  };
+
   return (
     <nav
       className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
@@ -100,7 +110,7 @@ export default function Navbar() {
               <Button
                 variant="outline"
                 size="sm"
-                onClick={() => window.open('/Zayed_Resume.pdf', '_blank')}
+                onClick={handleResumeRequest}
                 className="flex items-center gap-2"
               >
                 <Download size={16} />
@@ -165,14 +175,11 @@ export default function Navbar() {
                   <Button
                     variant="outline"
                     size="sm"
-                    onClick={() => {
-                      window.open('/Zayed_Resume.pdf', '_blank');
-                      setIsOpen(false);
-                    }}
+                    onClick={handleResumeRequest}
                     className="w-full flex items-center justify-center gap-2"
                   >
                     <Download size={16} />
-                    Download Resume
+                    Request Resume
                   </Button>
                 </div>
               </div>

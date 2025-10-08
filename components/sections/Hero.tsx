@@ -10,6 +10,15 @@ export default function Hero() {
     document.getElementById('contact')?.scrollIntoView({ behavior: 'smooth' });
   };
 
+  const handleResumeRequest = () => {
+    document.getElementById('contact')?.scrollIntoView({ behavior: 'smooth' });
+    // Trigger resume request selection after scroll
+    setTimeout(() => {
+      const event = new CustomEvent('selectInquiryType', { detail: 'resume' });
+      window.dispatchEvent(event);
+    }, 800);
+  };
+
   const handleScrollDown = () => {
     document.getElementById('about')?.scrollIntoView({ behavior: 'smooth' });
   };
@@ -112,10 +121,10 @@ export default function Hero() {
                 <Button
                   variant="outline"
                   size="lg"
-                  onClick={() => window.open('/Zayed_Resume.pdf', '_blank')}
+                  onClick={handleResumeRequest}
                   className="flex items-center gap-2 w-full sm:w-auto"
                 >
-                  View Resume
+                  Request Resume
                 </Button>
               </motion.div>
             </motion.div>

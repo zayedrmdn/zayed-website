@@ -7,7 +7,8 @@ const resend = new Resend(process.env.RESEND_API_KEY);
 const contactSchema = z.object({
   name: z.string().min(2, "Name must be at least 2 characters"),
   email: z.string().email("Please enter a valid email address"),
-  message: z.string().min(10, "Message must be at least 10 characters"),
+  inquiryType: z.string().min(1, "Please select an inquiry type"),
+  message: z.string().optional(),
 });
 
 export async function POST(req: Request) {
@@ -16,20 +17,20 @@ export async function POST(req: Request) {
     
     // Validate the request body
     const validatedData = contactSchema.parse(body);
-    const { name, email, message } = validatedData;
+    const { name, email, inquiryType, message } = validatedData;
 
     // Send notification email to you
     const { data: notificationData, error: notificationError } = await resend.emails.send({
       from: process.env.EMAIL_FROM || "Portfolio Contact <onboarding@resend.dev>",
       to: [process.env.EMAIL_TO || "zayedrmdn@gmail.com"],
-      subject: `Portfolio Contact: Message from ${name}`,
+      subject: `Portfolio Contact: ${inquiryType.charAt(0).toUpperCase() + inquiryType.slice(1)} from ${name}`,
       replyTo: email,
       html: `
         <h2>New Contact Form Submission</h2>
         <p><strong>Name:</strong> ${name}</p>
         <p><strong>Email:</strong> ${email}</p>
-        <p><strong>Message:</strong></p>
-        <p>${message.replace(/\n/g, '<br>')}</p>
+        <p><strong>Inquiry Type:</strong> ${inquiryType.charAt(0).toUpperCase() + inquiryType.slice(1)}</p>
+        ${message ? `<p><strong>Message:</strong></p><p>${message.replace(/\n/g, '<br>')}</p>` : '<p><em>No additional message provided.</em></p>'}
         
         <hr>
         <p><small>This message was sent from your portfolio contact form.</small></p>
@@ -39,7 +40,8 @@ export async function POST(req: Request) {
         
         Name: ${name}
         Email: ${email}
-        Message: ${message}
+        Inquiry Type: ${inquiryType.charAt(0).toUpperCase() + inquiryType.slice(1)}
+        Message: ${message || 'No additional message provided.'}
         
         This message was sent from your portfolio contact form.
       `,
@@ -71,11 +73,15 @@ export async function POST(req: Request) {
           <p>I've received your message and wanted to confirm that it reached me successfully. I appreciate you taking the time to get in touch!</p>
           
           <div style="background-color: #f8f9fa; padding: 15px; border-radius: 8px; margin: 20px 0;">
-            <h3 style="margin-top: 0; color: #333;">Your message:</h3>
-            <p style="color: #666; font-style: italic;">"${message}"</p>
+            <h3 style="margin-top: 0; color: #333;">Your inquiry details:</h3>
+            <p><strong>Type:</strong> ${inquiryType.charAt(0).toUpperCase() + inquiryType.slice(1)}</p>
+            ${message ? `<p style="color: #666; font-style: italic;"><strong>Message:</strong> "${message}"</p>` : '<p style="color: #888;"><em>No additional message provided.</em></p>'}
           </div>
           
-          <p>I'll review your message and get back to you as soon as possible, typically within 24-48 hours.</p>
+          ${inquiryType === 'resume' 
+            ? '<p><strong>Resume Request:</strong> I\'ll send you my latest resume along with my response, typically within 24 hours.</p>' 
+            : '<p>I\'ll review your message and get back to you as soon as possible, typically within 24-48 hours.</p>'
+          }
           
           <p>Best regards,<br>
           <strong>Zayed Ramadan Rahmat</strong><br>
@@ -95,10 +101,13 @@ export async function POST(req: Request) {
         
         I've received your message and wanted to confirm that it reached me successfully. I appreciate you taking the time to get in touch!
         
-        Your message:
-        "${message}"
+        Inquiry Type: ${inquiryType.charAt(0).toUpperCase() + inquiryType.slice(1)}
+        Your message: "${message}"
         
-        I'll review your message and get back to you as soon as possible, typically within 24-48 hours.
+        ${inquiryType === 'resume' 
+          ? 'Resume Request: I\'ll send you my latest resume along with my response, typically within 24 hours.' 
+          : 'I\'ll review your message and get back to you as soon as possible, typically within 24-48 hours.'
+        }
         
         Best regards,
         Zayed Ramadan Rahmat
