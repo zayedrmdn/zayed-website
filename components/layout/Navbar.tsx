@@ -3,7 +3,6 @@
 import { useState, useEffect } from "react";
 import { Menu, X, Download } from "lucide-react";
 import { navigationItems } from "@/lib/constants";
-import { personalInfo } from "@/lib/data/personal";
 import ThemeToggle from "@/components/ui/ThemeToggle";
 import Button from "@/components/ui/Button";
 import { motion, AnimatePresence } from "framer-motion";

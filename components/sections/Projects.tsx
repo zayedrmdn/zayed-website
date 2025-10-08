@@ -1,5 +1,6 @@
 // Projects.tsx
 "use client";
+import Image from "next/image";
 import { Github, ExternalLink } from "lucide-react";
 import SectionHeading from "@/components/ui/SectionHeading";
 import AnimatedSection from "@/components/ui/AnimatedSection";
@@ -32,10 +33,11 @@ export default function Projects() {
                   {/* Project Image */}
                   <div className="relative h-48 bg-gradient-to-br from-primary/10 to-secondary/20 overflow-hidden transition-colors">
                     {project.image ? (
-                      <img 
+                      <Image 
                         src={project.image} 
                         alt={project.title}
-                        className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
+                        fill
+                        className="object-cover transition-transform duration-300 group-hover:scale-105"
                       />
                     ) : (
                       <div className="absolute inset-0 flex items-center justify-center">
