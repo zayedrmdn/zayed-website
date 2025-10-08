@@ -1,7 +1,7 @@
 // my-portfolio/components/layout/Navbar.tsx
 "use client";
 import { useState, useEffect } from "react";
-import { Menu, X, Download } from "lucide-react";
+import { Menu, X, FileText } from "lucide-react";
 import { navigationItems } from "@/lib/constants";
 import ThemeToggle from "@/components/ui/ThemeToggle";
 import Button from "@/components/ui/Button";
@@ -113,7 +113,7 @@ export default function Navbar() {
                 onClick={handleResumeRequest}
                 className="flex items-center gap-2"
               >
-                <Download size={16} />
+                <FileText size={16} />
                 Resume
               </Button>
             </motion.div>
@@ -178,7 +178,7 @@ export default function Navbar() {
                     onClick={handleResumeRequest}
                     className="w-full flex items-center justify-center gap-2"
                   >
-                    <Download size={16} />
+                    <FileText size={16} />
                     Request Resume
                   </Button>
                 </div>
