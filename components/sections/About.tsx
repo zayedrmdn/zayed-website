@@ -39,19 +39,25 @@ export default function About() {
                   <div className="flex items-start space-x-3">
                     <div className="w-2 h-2 bg-accent rounded-full mt-2 flex-shrink-0"></div>
                     <p className="text-muted-foreground">
-                      Engineered real-time computer vision system with <span className="font-semibold text-accent">93% accuracy</span> for autonomous agricultural robots at Meraque Services
+                      Developed an AI system for fact-checking news, images, and videos, graded <span className="font-semibold text-accent">A+ (4.0)</span> in Final Year Project.
                     </p>
                   </div>
                   <div className="flex items-start space-x-3">
                     <div className="w-2 h-2 bg-accent rounded-full mt-2 flex-shrink-0"></div>
                     <p className="text-muted-foreground">
-                      Top 10 finalist in AWS DeepRacer Challenge and Top 6 in MumTec Hackathon at Monash University
+                      Built a real-time distance measurement system for a mobile rover with <span className="font-semibold text-accent">0.4–0.9 m accuracy</span> at Meraque Services.
                     </p>
                   </div>
                   <div className="flex items-start space-x-3">
                     <div className="w-2 h-2 bg-accent rounded-full mt-2 flex-shrink-0"></div>
                     <p className="text-muted-foreground">
-                      Led technical teams of 20+ members and supervised training programs for 30+ new assistants
+                      Contributed to an AI model achieving <span className="font-semibold text-accent">93% accuracy</span> for agricultural robot vision.
+                    </p>
+                  </div>
+                  <div className="flex items-start space-x-3">
+                    <div className="w-2 h-2 bg-accent rounded-full mt-2 flex-shrink-0"></div>
+                    <p className="text-muted-foreground">
+                      Finalist in <span className="font-semibold text-accent">AWS DeepRacer Challenge</span> and <span className="font-semibold text-accent">MumTec Hackathon</span> for applied AI projects.
                     </p>
                   </div>
                 </div>
