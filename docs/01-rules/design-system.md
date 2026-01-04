@@ -113,8 +113,19 @@ text-muted-foreground bg-primary border-border
 
 ### Font Stack
 
-- **Headings**: System UI or custom font via `next/font`
-- **Body**: Default sans-serif, optimized for readability
+- **Headings**: `Inter Tight` or System Sans (Bold, tracking-tight)
+- **Monospace (Terminal Accents)**: **JetBrains Mono** (Use for status badges, technical labels, versioning, logs, and buttons)
+- **Body**: Default sans-serif (Geist Sans), optimized for readability
+
+### Technical Aesthetic Rules
+
+| Element | Style Rule |
+|---------|------------|
+| Badges | Monospace, `tracking-[0.2em]`, bold, high-contrast |
+| Status Indicators | Glowing emerald, terminal-style label pairing |
+| Underlines | Use SVG paths for custom 'hand-drawn' or 'technical' strokes |
+| Logs | Use `text-xs font-mono text-muted-foreground` with `>` prefix |
+| File Trees | Use tree structures with folder icons for technical context |
 
 ---
 
@@ -164,11 +175,36 @@ text-muted-foreground bg-primary border-border
                    transition-colors">
 ```
 
-### Links
+### Floating Indicators (Terminal Style)
 
 ```tsx
-// Text link with underline
-<a className="text-primary hover:underline underline-offset-4">
+// Premium card-over-image style
+<div className="bg-background/95 backdrop-blur-xl border border-white/10 
+                shadow-[0_0_20px_rgba(0,0,0,0.3)] p-4 rounded-xl">
+```
+
+### System Log / Timeline (Experience Section)
+
+```tsx
+// Log entry style
+<div className="font-mono text-sm border-l border-border pl-4">
+  <span className="text-muted-foreground">PID:8492</span>
+  <span className="text-primary font-bold">RUNNING</span>
+</div>
+```
+
+### Codebase Explorer (Projects Section)
+
+```tsx
+// Repository card style
+<div className="border border-border rounded-xl bg-card flex">
+  <div className="w-64 border-r border-border bg-secondary/30">
+    {/* File Tree */}
+  </div>
+  <div className="flex-1 p-6">
+    {/* README Preview */}
+  </div>
+</div>
 ```
 
 ---

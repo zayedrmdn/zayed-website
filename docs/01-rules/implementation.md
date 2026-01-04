@@ -164,6 +164,27 @@ Always include in `globals.css`:
 
 ---
 
+## Part 4: Atmospheric Standards
+
+To elevate the UI beyond generic digital "flatness", use layered atmospheric effects.
+
+### 1. Grain Texture
+Add a subtle SVG noise overlay to page headers or hero sections to create cinematic depth.
+- **Opacity**: 0.03 - 0.05
+- **Blend Mode**: `mix-blend-overlay`
+
+### 2. Terminal Scanlines
+Use for high-tech or engineer-focused sections.
+- **Implementation**: CSS linear-gradient repeating pattern.
+- **Opacity**: 0.01 - 0.02 (Must be extremely subtle)
+
+### 3. Mouse-Following Spotlights
+Use Framer Motion `useMotionValue` and `useMotionTemplate` for radial gradients.
+- **Radius**: Large (600px - 900px)
+- **Intensity**: Extremely low alpha (e.g., `hsl(var(--primary) / 0.08)`)
+
+---
+
 ## Part 3: Component Patterns
 
 ### Reusable AnimatedSection

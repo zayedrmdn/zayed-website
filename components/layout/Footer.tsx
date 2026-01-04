@@ -11,14 +11,16 @@ export default function Footer() {
   };
 
   return (
-    <footer className="bg-gradient-to-br from-card via-card to-muted/30 text-card-foreground py-12 px-4 sm:px-6 lg:px-8 border-t border-border">
+    <footer className="bg-background text-foreground py-20 px-4 sm:px-6 lg:px-8 border-t border-border relative overflow-hidden">
+      {/* Subtle background detail */}
+      <div className="absolute bottom-0 right-0 w-96 h-96 bg-primary/5 rounded-full blur-[100px] -z-10" />
       <div className="max-w-6xl mx-auto">
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-8">
           {/* Brand & Description */}
           <div className="space-y-4">
             <h3 className="text-xl font-bold text-foreground">{personalInfo.name}</h3>
             <p className="text-muted-foreground leading-relaxed">
-              AI Engineer & Software Developer passionate about creating innovative solutions 
+              AI Engineer & Software Developer passionate about creating innovative solutions
               that bridge cutting-edge technology with real-world applications.
             </p>
           </div>
@@ -52,7 +54,7 @@ export default function Footer() {
           <div className="space-y-4">
             <h4 className="text-lg font-semibold text-foreground">Get In Touch</h4>
             <div className="space-y-2">
-              <a 
+              <a
                 href={`mailto:${personalInfo.email}`}
                 className="flex items-center space-x-2 text-muted-foreground hover:text-primary transition-colors text-sm hover:translate-x-1 duration-300"
               >
@@ -61,39 +63,39 @@ export default function Footer() {
               </a>
               <p className="text-muted-foreground text-sm">{personalInfo.location}</p>
             </div>
-            
-            {/* Social Links */}
-            <div className="flex space-x-3 pt-2">
+
+            {/* Social Links - Clean Premium Style */}
+            <div className="flex space-x-3 pt-4">
               {personalInfo.social.github && (
                 <a
                   href={personalInfo.social.github}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="p-2 bg-gradient-to-r from-accent to-accent/90 hover:from-accent/90 hover:to-accent/80 text-accent-foreground rounded-lg shadow-md hover:shadow-lg hover:shadow-accent/25 transition-all duration-300 transform hover:-translate-y-1 hover:scale-105"
+                  className="p-2.5 bg-secondary text-secondary-foreground rounded-md border border-border/50 hover:bg-secondary/70 hover:border-primary/30 hover:text-primary transition-all duration-300"
                   aria-label="GitHub"
                 >
-                  <Github size={18} />
+                  <Github size={20} />
                 </a>
               )}
-              
+
               {personalInfo.social.linkedin && (
                 <a
                   href={personalInfo.social.linkedin}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="p-2 bg-gradient-to-r from-primary to-primary/90 hover:from-primary/90 hover:to-primary/80 text-primary-foreground rounded-lg shadow-md hover:shadow-lg hover:shadow-primary/25 transition-all duration-300 transform hover:-translate-y-1 hover:scale-105"
+                  className="p-2.5 bg-secondary text-secondary-foreground rounded-md border border-border/50 hover:bg-secondary/70 hover:border-primary/30 hover:text-primary transition-all duration-300"
                   aria-label="LinkedIn"
                 >
-                  <Linkedin size={18} />
+                  <Linkedin size={20} />
                 </a>
               )}
-              
+
               <a
                 href={`mailto:${personalInfo.email}`}
-                className="p-2 bg-gradient-to-r from-secondary to-secondary/90 hover:from-secondary/90 hover:to-secondary/80 text-secondary-foreground rounded-lg shadow-md hover:shadow-lg hover:shadow-secondary/25 transition-all duration-300 transform hover:-translate-y-1 hover:scale-105"
+                className="p-2.5 bg-secondary text-secondary-foreground rounded-md border border-border/50 hover:bg-secondary/70 hover:border-primary/30 hover:text-primary transition-all duration-300"
                 aria-label="Email"
               >
-                <Mail size={18} />
+                <Mail size={20} />
               </a>
             </div>
           </div>
@@ -107,7 +109,7 @@ export default function Footer() {
               <Heart size={14} className="text-red-500 animate-pulse" />
               <span>using Next.js & TypeScript</span>
             </div>
-            
+
             {/* Back to Top */}
             <button
               onClick={scrollToTop}

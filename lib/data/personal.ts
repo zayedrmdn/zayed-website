@@ -14,7 +14,7 @@ export const personalInfo: PersonalInfo = {
     gpa: "Grand Tuition Scholarship (2022)",
     period: "Sept 2022 - Aug 2025"
   },
-  location: "Kuala Lumpur, Malaysia",
+  location: "Jakarta, Indonesia",
   email: "zayedrmdn@gmail.com",
   phone: "+6017 – 219 7902",
   social: {

@@ -2,7 +2,19 @@ import { Experience } from "@/lib/types";
 
 export const experiences: Experience[] = [
   {
-    id: "ai-engineer-intern",
+    id: "socs-ai-intern",
+    title: "AI Engineer Intern",
+    company: "SoCS Nusa Putra University",
+    period: "Dec 2025 - Present",
+    description: [
+      "Contributed to the development and maintenance of AI based and software systems",
+      "Supported web platforms, automation, and scripting tasks across technical projects",
+      "Assisted with system operations and general technical support in collaboration with the team"
+    ],
+    technologies: ["AI Systems", "Web Development", "Automation", "Scripting", "Technical Support"]
+  },
+  {
+    id: "ai-engineer-intern-meraque",
     title: "Artificial Intelligence Engineer Intern",
     company: "Meraque Services Sdn. Bhd.",
     period: "Jul 2024 - Nov 2024",

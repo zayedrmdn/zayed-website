@@ -44,16 +44,15 @@ export default function Navbar() {
 
   return (
     <nav
-      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
-        scrolled
+      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${scrolled
           ? "backdrop-blur-lg border-b border-border/30 shadow-sm bg-background/70"
           : "bg-transparent"
-      }`}
+        }`}
     >
       <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-center h-16 relative">
           {/* Desktop Navigation - Centered */}
-          <motion.div 
+          <motion.div
             className="hidden md:flex items-center space-x-8"
             initial={{ opacity: 0, y: -20 }}
             animate={{ opacity: 1, y: 0 }}
@@ -64,34 +63,28 @@ export default function Navbar() {
                 key={item.href}
                 initial={{ opacity: 0, y: -20 }}
                 animate={{ opacity: 1, y: 0 }}
-                transition={{ 
+                transition={{
                   delay: 0.3 + index * 0.1,
                   duration: 0.4,
                   type: "spring",
-                  stiffness: 100 
+                  stiffness: 100
                 }}
-                whileHover={{ 
-                  scale: 1.05,
-                  y: -2,
-                  transition: { duration: 0.2 }
-                }}
-                whileTap={{ scale: 0.95 }}
                 onClick={() => handleNavClick(item.href, item.external)}
-                className="relative text-foreground/80 hover:text-accent transition-colors duration-200 font-medium px-3 py-2 rounded-lg hover:bg-accent/10"
+                className="relative text-foreground/70 hover:text-foreground transition-all duration-300 font-medium px-4 py-2 rounded-md hover:bg-secondary/80 group/nav"
               >
-                {item.label}
+                <span className="relative z-10">{item.label}</span>
                 <motion.div
-                  className="absolute bottom-0 left-0 right-0 h-0.5 bg-accent rounded-full"
+                  className="absolute bottom-1 left-4 right-4 h-0.5 bg-primary rounded-full origin-left"
                   initial={{ scaleX: 0 }}
                   whileHover={{ scaleX: 1 }}
-                  transition={{ duration: 0.2 }}
+                  transition={{ duration: 0.3, ease: "circOut" }}
                 />
               </motion.button>
             ))}
           </motion.div>
 
           {/* Desktop Actions - Right side */}
-          <motion.div 
+          <motion.div
             className="hidden md:flex items-center space-x-4 absolute right-0"
             initial={{ opacity: 0, x: 20 }}
             animate={{ opacity: 1, x: 0 }}
@@ -120,7 +113,7 @@ export default function Navbar() {
           </motion.div>
 
           {/* Mobile menu button */}
-          <motion.div 
+          <motion.div
             className="md:hidden flex items-center space-x-2 absolute right-0"
             initial={{ opacity: 0, x: 20 }}
             animate={{ opacity: 1, x: 0 }}
@@ -154,7 +147,7 @@ export default function Navbar() {
               animate={{ opacity: 1, height: "auto" }}
               exit={{ opacity: 0, height: 0 }}
               transition={{ duration: 0.3 }}
-                            className="md:hidden border-t border-border bg-background/95 backdrop-blur-sm"
+              className="md:hidden border-t border-border bg-background/95 backdrop-blur-sm"
             >
               <div className="px-2 pt-2 pb-3 space-y-1">
                 {navigationItems.map((item, index) => (

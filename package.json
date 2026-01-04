@@ -11,7 +11,7 @@
   "dependencies": {
     "@hookform/resolvers": "^5.2.2",
     "clsx": "^2.1.1",
-    "framer-motion": "^12.23.22",
+    "framer-motion": "^12.23.26",
     "lucide-react": "^0.544.0",
     "next": "15.5.9",
     "next-sitemap": "^4.2.3",
@@ -21,7 +21,7 @@
     "react-hook-form": "^7.64.0",
     "react-hot-toast": "^2.6.0",
     "resend": "^6.1.2",
-    "tailwind-merge": "^3.3.1",
+    "tailwind-merge": "^3.4.0",
     "zod": "^4.1.11"
   },
   "devDependencies": {
@@ -34,5 +34,6 @@
     "eslint-config-next": "15.5.4",
     "tailwindcss": "^4",
     "typescript": "^5"
-  }
+  },
+  "packageManager": "pnpm@10.26.1+sha512.664074abc367d2c9324fdc18037097ce0a8f126034160f709928e9e9f95d98714347044e5c3164d65bd5da6c59c6be362b107546292a8eecb7999196e5ce58fa"
 }

@@ -5,7 +5,7 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import toast from "react-hot-toast";
-import { Mail, Phone, MapPin, Send, Github, Linkedin, MessageCircle } from "lucide-react";
+import { Mail, Send, Github, Linkedin, MessageCircle } from "lucide-react";
 import SectionHeading from "@/components/ui/SectionHeading";
 import AnimatedSection from "@/components/ui/AnimatedSection";
 import Card from "@/components/ui/Card";
@@ -43,21 +43,23 @@ export default function Contact() {
   });
 
   useEffect(() => {
-    const handleInquirySelection = (event: CustomEvent) => {
-      if (event.detail === 'resume') {
+    // Custom event listener for inquiry selection
+    const handleInquirySelection = (event: Event) => {
+      const customEvent = event as CustomEvent;
+      if (customEvent.detail === 'resume') {
         setValue('inquiryType', 'resume');
       }
     };
 
-    window.addEventListener('selectInquiryType', handleInquirySelection as EventListener);
+    window.addEventListener('selectInquiryType', handleInquirySelection);
     return () => {
-      window.removeEventListener('selectInquiryType', handleInquirySelection as EventListener);
+      window.removeEventListener('selectInquiryType', handleInquirySelection);
     };
   }, [setValue]);
 
   const onSubmit = async (data: ContactFormData) => {
     setIsSubmitting(true);
-    
+
     try {
       const response = await fetch("/api/contact", {
         method: "POST",
@@ -82,120 +84,78 @@ export default function Contact() {
   };
 
   return (
-    <section id="contact" className="py-20 md:py-32 px-4 sm:px-6 lg:px-8 transition-colors">
+    <section id="contact" className="py-20 md:py-32 px-4 sm:px-6 lg:px-8 bg-secondary/10">
       <div className="max-w-6xl mx-auto">
-        <SectionHeading 
+        <SectionHeading
           title="Get In Touch"
-          subtitle="Have a project in mind or want to collaborate? I'd love to hear from you!"
+          subtitle="Have a project in mind or want to collaborate? let's talk."
         />
 
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 lg:gap-12">
           {/* Contact Information */}
-          <div className="lg:col-span-1">
-            <AnimatedSection delay={0.2}>
-              <Card className="p-6 mb-6">
-                <h3 className="text-xl font-semibold text-foreground mb-6">
-                  Let&apos;s Connect
+          <div className="lg:col-span-1 space-y-6">
+            <AnimatedSection delay={0.1}>
+              {/* Connector Card */}
+              <Card className="p-6 border-l-4 border-l-primary/60 shadow-md">
+                <h3 className="text-lg font-bold text-foreground mb-6 flex items-center gap-2">
+                  <Mail size={18} className="text-primary" />
+                  Contact Info
                 </h3>
-                
-                <div className="space-y-4">
-                  {/* Email */}
-                  <div className="flex items-center space-x-3">
-                    <div className="p-2 bg-accent/10 rounded-lg transition-colors hover:bg-accent/20">
-                      <Mail className="text-accent" size={20} />
-                    </div>
-                    <div>
-                      <p className="text-sm text-muted-foreground">Email</p>
-                      <a 
-                        href={`mailto:${personalInfo.email}`}
-                        className="text-foreground hover:text-accent transition-colors duration-200"
-                      >
-                        {personalInfo.email}
-                      </a>
-                    </div>
+
+                <div className="space-y-6">
+                  <div>
+                    <p className="text-xs font-bold text-foreground/70 uppercase tracking-wider mb-1">Email</p>
+                    <a
+                      href={`mailto:${personalInfo.email}`}
+                      className="text-foreground hover:text-primary transition-colors font-medium break-all"
+                    >
+                      {personalInfo.email}
+                    </a>
                   </div>
 
-                  {/* Phone (if available) */}
-                  {personalInfo.phone && (
-                    <div className="flex items-center space-x-3">
-                      <div className="p-2 bg-primary/10 rounded-lg transition-colors">
-                        <Phone className="text-primary" size={20} />
-                      </div>
-                      <div>
-                        <p className="text-sm text-muted-foreground">Phone</p>
-                        <a 
-                          href={`tel:${personalInfo.phone}`}
-                          className="text-foreground hover:text-primary transition-colors"
-                        >
-                          {personalInfo.phone}
-                        </a>
-                      </div>
-                    </div>
-                  )}
-
-                  {/* Location */}
-                  <div className="flex items-center space-x-3">
-                    <div className="p-2 bg-primary/10 rounded-lg transition-colors">
-                      <MapPin className="text-primary" size={20} />
-                    </div>
-                    <div>
-                      <p className="text-sm text-muted-foreground">Location</p>
-                      <p className="text-foreground">{personalInfo.location}</p>
-                    </div>
+                  <div>
+                    <p className="text-xs font-bold text-foreground/70 uppercase tracking-wider mb-1">Location</p>
+                    <p className="text-foreground font-medium">{personalInfo.location}</p>
                   </div>
                 </div>
               </Card>
             </AnimatedSection>
 
-            {/* Social Links */}
-            <AnimatedSection delay={0.4}>
-              <Card className="p-6">
-                <h4 className="font-semibold text-foreground mb-4">
-                  Follow Me
-                </h4>
-                
-                <div className="flex space-x-3">
+            <AnimatedSection delay={0.2}>
+              {/* Socials Card */}
+              <Card className="p-6 shadow-md">
+                <h4 className="font-bold text-foreground mb-4 text-sm">Connect on Socials</h4>
+                <div className="flex gap-3">
                   {personalInfo.social.github && (
                     <a
                       href={personalInfo.social.github}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="p-3 bg-gradient-to-r from-accent to-accent/90 hover:from-accent/90 hover:to-accent/80 text-accent-foreground hover:text-foreground rounded-xl shadow-lg hover:shadow-xl hover:shadow-accent/25 transition-all duration-300 transform hover:-translate-y-1 hover:scale-105"
+                      className="p-3 bg-secondary text-foreground hover:bg-foreground hover:text-background rounded-xl transition-all duration-300 border border-border hover:border-transparent"
                       aria-label="GitHub"
                     >
                       <Github size={20} />
                     </a>
                   )}
-                  
                   {personalInfo.social.linkedin && (
                     <a
                       href={personalInfo.social.linkedin}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="p-3 bg-gradient-to-r from-primary to-primary/90 hover:from-primary/90 hover:to-primary/80 text-primary-foreground hover:text-primary-foreground rounded-xl shadow-lg hover:shadow-xl hover:shadow-primary/25 transition-all duration-300 transform hover:-translate-y-1 hover:scale-105"
+                      className="p-3 bg-secondary text-foreground hover:bg-[#0077b5] hover:text-white rounded-xl transition-all duration-300 border border-border hover:border-transparent"
                       aria-label="LinkedIn"
                     >
                       <Linkedin size={20} />
                     </a>
                   )}
-                  
-                  <a
-                    href={`mailto:${personalInfo.email}`}
-                    className="p-3 bg-gradient-to-r from-secondary to-secondary/90 hover:from-secondary/90 hover:to-secondary/80 text-secondary-foreground hover:text-foreground rounded-xl shadow-lg hover:shadow-xl hover:shadow-secondary/25 transition-all duration-300 transform hover:-translate-y-1 hover:scale-105"
-                    aria-label="Email"
-                  >
-                    <Mail size={20} />
-                  </a>
                 </div>
-
-                {/* Response Time */}
-                <div className="mt-4 pt-4 border-t border-border">
-                  <div className="flex items-center space-x-2">
-                    <div className="w-3 h-3 bg-gradient-to-r from-emerald-400 to-emerald-500 rounded-full animate-pulse shadow-sm"></div>
-                    <span className="text-sm text-muted-foreground">
-                      Usually responds within 24 hours
-                    </span>
-                  </div>
+                {/* Status Pulse */}
+                <div className="mt-6 pt-4 border-t border-border flex items-center gap-3">
+                  <span className="relative flex h-2.5 w-2.5">
+                    <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-emerald-500"></span>
+                    <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-500 opacity-20"></span>
+                  </span>
+                  <span className="text-xs font-bold text-foreground/70">Typically responds within 24h</span>
                 </div>
               </Card>
             </AnimatedSection>
@@ -203,152 +163,87 @@ export default function Contact() {
 
           {/* Contact Form */}
           <div className="lg:col-span-2">
-            <AnimatedSection delay={0.3}>
-              <Card className="p-6">
-                <div className="flex items-center space-x-3 mb-6">
+            <AnimatedSection delay={0.2}>
+              <Card className="p-6 md:p-8 border border-border shadow-lg">
+                <div className="flex items-center gap-3 mb-8 pb-4 border-b border-border">
                   <MessageCircle className="text-primary" size={24} />
-                  <h3 className="text-xl font-semibold text-foreground">
-                    Send me a message
+                  <h3 className="text-xl font-bold text-foreground">
+                    Send a message
                   </h3>
                 </div>
 
                 <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
-                  {/* Name Field */}
-                  <div>
-                    <label 
-                      htmlFor="name" 
-                      className="block text-sm font-medium text-foreground mb-2"
-                    >
-                      Full Name *
-                    </label>
-                    <input
-                      {...register("name")}
-                      type="text"
-                      id="name"
-                      className={`
-                        w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-accent focus:border-accent transition-all duration-200
-                        bg-input text-foreground placeholder:text-muted-foreground
-                        hover:border-accent/50 hover:shadow-sm hover:shadow-accent/10
-                        ${errors.name 
-                          ? 'border-destructive focus:ring-destructive focus:border-destructive' 
-                          : 'border-border'
-                        }
-                      `}
-                      placeholder="Your full name"
-                    />
-                    {errors.name && (
-                      <p className="mt-1 text-sm text-destructive">
-                        {errors.name.message}
-                      </p>
-                    )}
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div className="space-y-2">
+                      <label htmlFor="name" className="text-xs font-bold text-foreground uppercase tracking-wide ml-1">Full Name</label>
+                      <input
+                        {...register("name")}
+                        id="name"
+                        className="w-full px-4 py-3 bg-background border border-border rounded-lg focus:ring-1 focus:ring-primary focus:border-primary transition-all outline-none text-foreground placeholder:text-muted-foreground text-sm font-medium"
+                        placeholder="John Doe"
+                      />
+                      {errors.name && <p className="text-xs text-destructive ml-1">{errors.name.message}</p>}
+                    </div>
+                    <div className="space-y-2">
+                      <label htmlFor="email" className="text-xs font-bold text-foreground uppercase tracking-wide ml-1">Email Address</label>
+                      <input
+                        {...register("email")}
+                        id="email"
+                        type="email"
+                        className="w-full px-4 py-3 bg-background border border-border rounded-lg focus:ring-1 focus:ring-primary focus:border-primary transition-all outline-none text-foreground placeholder:text-muted-foreground text-sm font-medium"
+                        placeholder="john@example.com"
+                      />
+                      {errors.email && <p className="text-xs text-destructive ml-1">{errors.email.message}</p>}
+                    </div>
                   </div>
 
-                  {/* Email Field */}
-                  <div>
-                    <label 
-                      htmlFor="email" 
-                      className="block text-sm font-medium text-foreground mb-2"
-                    >
-                      Email Address *
-                    </label>
-                    <input
-                      {...register("email")}
-                      type="email"
-                      id="email"
-                      className={`
-                        w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-accent focus:border-accent transition-all duration-200
-                        bg-input text-foreground placeholder:text-muted-foreground
-                        hover:border-accent/50 hover:shadow-sm hover:shadow-accent/10
-                        ${errors.email 
-                          ? 'border-destructive focus:ring-destructive focus:border-destructive' 
-                          : 'border-border'
-                        }
-                      `}
-                      placeholder="your@email.com"
-                    />
-                    {errors.email && (
-                      <p className="mt-1 text-sm text-destructive">
-                        {errors.email.message}
-                      </p>
-                    )}
+                  <div className="space-y-2">
+                    <label htmlFor="inquiryType" className="text-xs font-bold text-foreground uppercase tracking-wide ml-1">Inquiry Type</label>
+                    <div className="relative">
+                      <select
+                        {...register("inquiryType")}
+                        id="inquiryType"
+                        className="w-full px-4 py-3 bg-background border border-border rounded-lg focus:ring-1 focus:ring-primary focus:border-primary transition-all outline-none text-foreground appearance-none text-sm font-medium cursor-pointer"
+                      >
+                        {inquiryTypes.map((type) => (
+                          <option key={type.value} value={type.value} className="bg-background text-foreground">
+                            {type.label}
+                          </option>
+                        ))}
+                      </select>
+                      <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-4 text-muted-foreground">
+                        <svg className="h-4 w-4 fill-current" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
+                          <path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z" />
+                        </svg>
+                      </div>
+                    </div>
+                    {errors.inquiryType && <p className="text-xs text-destructive ml-1">{errors.inquiryType.message}</p>}
                   </div>
 
-                  {/* Inquiry Type Field */}
-                  <div>
-                    <label 
-                      htmlFor="inquiryType" 
-                      className="block text-sm font-medium text-foreground mb-2"
-                    >
-                      Inquiry Type *
-                    </label>
-                    <select
-                      {...register("inquiryType")}
-                      id="inquiryType"
-                      className={`
-                        w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-accent focus:border-accent transition-all duration-200
-                        bg-input text-foreground
-                        hover:border-accent/50 hover:shadow-sm hover:shadow-accent/10
-                        [&>option]:bg-card [&>option]:text-card-foreground
-                        ${errors.inquiryType 
-                          ? 'border-destructive focus:ring-destructive focus:border-destructive' 
-                          : 'border-border'
-                        }
-                      `}
-                    >
-                      {inquiryTypes.map((type) => (
-                        <option key={type.value} value={type.value} className="bg-card text-card-foreground">
-                          {type.label}
-                        </option>
-                      ))}
-                    </select>
-                    {errors.inquiryType && (
-                      <p className="mt-1 text-sm text-destructive">
-                        {errors.inquiryType.message}
-                      </p>
-                    )}
-                  </div>
-
-                  {/* Message Field */}
-                  <div>
-                    <label 
-                      htmlFor="message" 
-                      className="block text-sm font-medium text-foreground mb-2"
-                    >
-                      Additional Message (Optional)
-                    </label>
+                  <div className="space-y-2">
+                    <label htmlFor="message" className="text-xs font-bold text-foreground uppercase tracking-wide ml-1">Message</label>
                     <textarea
                       {...register("message")}
                       id="message"
-                      rows={5}
-                      className={`
-                        w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-accent focus:border-accent transition-all duration-200 resize-none
-                        bg-input text-foreground placeholder:text-muted-foreground
-                        hover:border-accent/50 hover:shadow-sm hover:shadow-accent/10
-                        ${errors.message 
-                          ? 'border-destructive focus:ring-destructive focus:border-destructive' 
-                          : 'border-border'
-                        }
-                      `}
-                      placeholder="Any additional details you'd like to share? (Optional)"
+                      rows={6}
+                      className="w-full px-4 py-3 bg-background border border-border rounded-lg focus:ring-1 focus:ring-primary focus:border-primary transition-all outline-none resize-none form-textarea text-foreground placeholder:text-muted-foreground text-sm leading-relaxed font-medium"
+                      placeholder="Tell me about your project..."
                     />
-                    {errors.message && (
-                      <p className="mt-1 text-sm text-destructive">
-                        {errors.message.message}
-                      </p>
-                    )}
+                    {errors.message && <p className="text-xs text-destructive ml-1">{errors.message.message}</p>}
                   </div>
 
-                  {/* Submit Button */}
-                  <Button
-                    type="submit"
-                    disabled={isSubmitting}
-                    isLoading={isSubmitting}
-                    className="w-full flex items-center justify-center gap-2 bg-[hsl(var(--primary))] text-[hsl(var(--primary-foreground))] hover:bg-[hsl(var(--accent))] disabled:opacity-70 disabled:cursor-not-allowed transition-colors"
-                    size="lg"
-                  >
-                    <Send size={20} />
-                    {isSubmitting ? "Sending..." : "Send Message"}
-                  </Button>
+                  <div className="pt-2">
+                    <Button
+                      type="submit"
+                      disabled={isSubmitting}
+                      isLoading={isSubmitting}
+                      size="lg"
+                      className="w-full md:w-auto bg-primary text-primary-foreground hover:bg-primary/90 font-bold"
+                    >
+                      <Send size={18} className="mr-2" />
+                      {isSubmitting ? "Sending..." : "Send Message"}
+                    </Button>
+                  </div>
 
                 </form>
               </Card>

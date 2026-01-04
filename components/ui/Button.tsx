@@ -18,13 +18,13 @@ export default function Button({
   disabled,
   ...props
 }: ButtonProps) {
-  const baseStyles = "inline-flex items-center justify-center rounded-lg font-medium transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-ring disabled:opacity-50 disabled:cursor-not-allowed";
-  
+  const baseStyles = "inline-flex items-center justify-center whitespace-nowrap rounded-md font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50";
+
   const variants = {
-    primary: "bg-gradient-to-r from-accent to-blue-600 text-white hover:from-blue-600 hover:to-accent shadow-lg hover:shadow-xl hover:shadow-accent/30 transition-all duration-300 transform hover:-translate-y-0.5 hover:scale-105",
-    secondary: "bg-gradient-to-r from-secondary to-muted text-secondary-foreground hover:from-muted hover:to-secondary shadow-md hover:shadow-lg hover:shadow-muted/20 transition-all duration-300 transform hover:-translate-y-0.5",
-    outline: "border-2 border-primary/60 text-foreground bg-gradient-to-r from-transparent to-accent/5 hover:from-accent/10 hover:to-accent/20 hover:border-accent hover:shadow-md hover:shadow-accent/25 hover:text-accent transition-all duration-300 transform hover:-translate-y-0.5",
-    ghost: "text-muted-foreground hover:bg-gradient-to-r hover:from-accent/20 hover:to-accent/30 hover:text-accent-foreground transition-all duration-300 transform hover:-translate-y-0.5",
+    primary: "bg-primary text-primary-foreground shadow-sm hover:opacity-90 transition-opacity duration-200",
+    secondary: "bg-secondary text-secondary-foreground shadow-sm hover:bg-secondary/80 transition-colors duration-200",
+    outline: "border border-input bg-background shadow-sm hover:bg-accent hover:text-accent-foreground transition-colors duration-200",
+    ghost: "hover:bg-accent hover:text-accent-foreground transition-colors duration-200",
   };
 
   const sizes = {
