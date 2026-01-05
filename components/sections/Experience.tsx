@@ -2,16 +2,10 @@
 "use client";
 import { useRef } from "react";
 import { motion, useScroll, useTransform } from "framer-motion";
-import {
-  GitCommit,
-  GitBranch,
-  Terminal,
-  Clock,
-  Calendar,
-  ChevronRight,
-  Hash
-} from "lucide-react";
+import { GitCommit, Terminal, Clock, ChevronRight } from "lucide-react";
+
 import SectionHeading from "@/components/ui/SectionHeading";
+
 import { experiences } from "@/lib/data/experience";
 
 export default function Experience() {
@@ -24,7 +18,7 @@ export default function Experience() {
   const lineHeight = useTransform(scrollYProgress, [0, 1], ["0%", "100%"]);
 
   return (
-    <section id="experience" className="py-24 md:py-32 bg-background relative overflow-hidden">
+    <section id="experience" className="py-16 md:py-24 bg-background relative overflow-hidden">
       {/* Background Matrix/Grid Effect */}
       <div className="absolute inset-0 bg-[linear-gradient(to_right,#80808012_1px,transparent_1px),linear-gradient(to_bottom,#80808012_1px,transparent_1px)] bg-[size:24px_24px] [mask-image:radial-gradient(ellipse_60%_50%_at_50%_0%,#000_70%,transparent_100%)] pointer-events-none" />
 
@@ -45,7 +39,6 @@ export default function Experience() {
 
           <div className="space-y-16">
             {experiences.map((experience, index) => {
-              const isLast = index === experiences.length - 1;
               return (
                 <motion.div
                   key={experience.id}
@@ -77,8 +70,8 @@ export default function Experience() {
                       </div>
                       <div className="hidden sm:block w-px h-3 bg-border" />
                       <div className="flex items-center gap-1.5">
-                        <div className={`w-2 h-2 rounded-full ${index === 0 ? 'bg-emerald-500 animate-pulse' : 'bg-zinc-500'}`} />
-                        <span className={`font-bold ${index === 0 ? 'text-emerald-500' : 'text-zinc-500'}`}>
+                        <div className={`w-2 h-2 rounded-full ${index === 0 ? 'bg-emerald-500 animate-pulse' : 'bg-muted-foreground/30'}`} />
+                        <span className={`font-bold ${index === 0 ? 'text-emerald-500' : 'text-muted-foreground/50'}`}>
                           {index === 0 ? 'RUNNING' : 'COMPLETED'}
                         </span>
                       </div>
@@ -99,7 +92,7 @@ export default function Experience() {
                       <div className="space-y-2 mb-6 font-mono text-sm text-muted-foreground">
                         {experience.description.map((item, idx) => (
                           <div key={idx} className="flex items-start gap-2">
-                            <span className="text-zinc-700 mt-1">
+                            <span className="text-muted-foreground mt-1">
                               <ChevronRight size={14} />
                             </span>
                             <span className="leading-relaxed">
@@ -111,7 +104,7 @@ export default function Experience() {
 
                       {/* Tech Stack */}
                       <div className="flex flex-wrap items-center gap-2 pt-4 border-t border-border/40">
-                        <span className="text-[10px] font-mono text-zinc-500 uppercase tracking-widest mr-2">
+                        <span className="text-[10px] font-mono text-muted-foreground uppercase tracking-widest mr-2">
                           Dependencies:
                         </span>
                         {experience.technologies.map((tech, idx) => (

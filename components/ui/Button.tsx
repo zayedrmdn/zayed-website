@@ -23,8 +23,8 @@ export default function Button({
   const variants = {
     primary: "bg-primary text-primary-foreground shadow-sm hover:opacity-90 transition-opacity duration-200",
     secondary: "bg-secondary text-secondary-foreground shadow-sm hover:bg-secondary/80 transition-colors duration-200",
-    outline: "border border-input bg-background shadow-sm hover:bg-accent hover:text-accent-foreground transition-colors duration-200",
-    ghost: "hover:bg-accent hover:text-accent-foreground transition-colors duration-200",
+    outline: "border border-border bg-background shadow-sm hover:bg-primary/10 hover:text-primary transition-colors duration-200",
+    ghost: "hover:bg-primary/10 hover:text-primary transition-colors duration-200",
   };
 
   const sizes = {

@@ -5,7 +5,9 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import toast from "react-hot-toast";
 import { Send, Terminal, Loader2, AlertCircle } from "lucide-react";
+
 import SectionHeading from "@/components/ui/SectionHeading";
+
 import { personalInfo } from "@/lib/data/personal";
 import { ContactFormData } from "@/lib/types";
 
@@ -83,7 +85,7 @@ export default function Contact() {
   };
 
   return (
-    <section id="contact" className="py-20 bg-background relative border-t border-border">
+    <section id="contact" className="py-16 md:py-24 bg-background relative border-t border-border">
       <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
         <SectionHeading
           title="Secure Channel"
@@ -247,7 +249,7 @@ export default function Contact() {
                 <button
                   type="submit"
                   disabled={isSubmitting}
-                  className="group relative inline-flex items-center gap-3 px-6 py-4 bg-foreground text-background hover:bg-primary hover:text-primary-foreground border-2 border-transparent hover:border-primary-foreground/20 rounded-sm transition-all duration-300 w-full md:w-auto overflow-hidden disabled:opacity-50 disabled:cursor-not-allowed shadow-md"
+                  className="group relative inline-flex items-center gap-3 px-6 py-4 bg-primary text-primary-foreground hover:opacity-90 border-2 border-transparent rounded-sm transition-all duration-300 w-full md:w-auto overflow-hidden disabled:opacity-50 disabled:cursor-not-allowed shadow-md"
                 >
                   {isSubmitting ? (
                     <Loader2 size={16} className="animate-spin text-inherit" />

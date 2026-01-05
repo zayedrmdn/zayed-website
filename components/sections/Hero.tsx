@@ -1,17 +1,18 @@
 // Hero.tsx
 "use client";
+import { useRef } from "react";
 import Image from "next/image";
 import { motion, useScroll, useTransform, useSpring, useMotionValue, useMotionTemplate } from "framer-motion";
 import { ArrowRight, Github, Linkedin, Mail, Terminal, ChevronDown } from "lucide-react";
+
 import Button from "@/components/ui/Button";
+
 import { personalInfo } from "@/lib/data/personal";
-import { useRef } from "react";
 
 export default function Hero() {
   const ref = useRef<HTMLDivElement>(null);
   const { scrollY } = useScroll();
-  const y1 = useTransform(scrollY, [0, 500], [0, 200]);
-  const y2 = useTransform(scrollY, [0, 500], [0, -150]);
+  const y1 = useTransform(scrollY, [0, 500], [0, 100]);
 
   // Parallax Mouse Effect
   const mouseX = useMotionValue(0);
@@ -68,12 +69,12 @@ export default function Hero() {
       </div>
 
 
-      <div className="max-w-7xl w-full mx-auto relative z-10 grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-8 items-center">
+      <div className="max-w-7xl w-full mx-auto relative z-10 grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-8 items-center">
 
         {/* Left Column: Text Content */}
         <motion.div
           style={{ y: y1 }}
-          className="order-2 lg:order-1 flex flex-col items-center lg:items-start text-center lg:text-left space-y-8"
+          className="order-2 lg:order-1 flex flex-col items-center lg:items-start text-center lg:text-left space-y-6 lg:space-y-8 lg:motion-safe:translate-y-0"
         >
 
           {/* Terminal Badge - Clean, non-intrusive */}
@@ -106,7 +107,7 @@ export default function Hero() {
             </motion.h1>
 
             <motion.h2
-              className="text-xl sm:text-2xl text-foreground/80 font-medium font-mono"
+              className="text-xl sm:text-2xl text-foreground/90 font-medium font-mono"
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5, delay: 0.2, ease: "easeOut" }}
@@ -117,7 +118,7 @@ export default function Hero() {
 
           {/* Description */}
           <motion.p
-            className="text-base sm:text-lg text-foreground/70 max-w-2xl leading-relaxed font-medium"
+            className="text-base sm:text-lg text-foreground/80 max-w-2xl leading-relaxed font-medium"
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5, delay: 0.3, ease: "easeOut" }}
@@ -179,12 +180,11 @@ export default function Hero() {
               rotateX,
               rotateY,
               transformStyle: "preserve-3d",
-              y: y2
             }}
             initial={{ opacity: 0, scale: 0.95 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={{ duration: 0.7, delay: 0.2, ease: "easeOut" }}
-            className="relative w-72 h-72 sm:w-96 sm:h-96"
+            className="relative w-64 h-64 sm:w-80 sm:h-80 lg:w-96 lg:h-96"
           >
             {/* Image Container */}
             <div className="relative w-full h-full rounded-2xl overflow-hidden bg-muted shadow-2xl z-30 ring-1 ring-border/50 group transform transition-transform duration-500">
@@ -197,18 +197,18 @@ export default function Hero() {
                 sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
               />
 
-              {/* Status Indicator - Refined Terminal Aesthetic */}
-              <div className="absolute bottom-5 left-5 right-5 bg-zinc-950/90 backdrop-blur-xl border border-white/10 p-4 rounded-xl flex items-center gap-4 shadow-[0_0_20px_rgba(0,0,0,0.3)] z-40 transition-all duration-300 hover:border-primary/20 group/status">
-                <div className="relative flex h-3 w-3 shrink-0">
+              {/* Status Indicator - Dark background for visibility over photo */}
+              <div className="absolute bottom-4 left-4 right-4 sm:bottom-5 sm:left-5 sm:right-5 bg-card/95 backdrop-blur-xl border border-border/50 p-3 sm:p-4 rounded-xl flex items-center gap-3 sm:gap-4 shadow-[0_10px_40px_rgba(0,0,0,0.1)] z-40 transition-all duration-300 hover:border-primary/20 group/status">
+                <div className="relative flex h-2.5 w-2.5 sm:h-3 sm:w-3 shrink-0">
                   <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-500 opacity-40"></span>
-                  <span className="relative inline-flex rounded-full h-3 w-3 bg-emerald-500 shadow-[0_0_8px_rgba(16,185,129,0.6)]"></span>
+                  <span className="relative inline-flex rounded-full h-2.5 w-2.5 sm:h-3 sm:w-3 bg-emerald-500 shadow-[0_0_8px_rgba(16,185,129,0.6)]"></span>
                 </div>
                 <div className="flex flex-col gap-0.5">
                   <div className="flex items-center gap-2">
-                    <p className="text-[10px] font-mono font-bold text-white/60 uppercase tracking-[0.2em] leading-none">Status</p>
-                    <span className="h-[2px] w-4 bg-primary/20 rounded-full" />
+                    <p className="text-[9px] sm:text-[10px] font-mono font-bold text-muted-foreground uppercase tracking-[0.2em] leading-none">Status</p>
+                    <span className="h-[2px] w-3 sm:w-4 bg-primary/20 rounded-full" />
                   </div>
-                  <p className="text-sm font-bold text-white tracking-tight group-hover/status:text-primary transition-colors">Open to opportunities</p>
+                  <p className="text-xs sm:text-sm font-bold text-foreground tracking-tight group-hover/status:text-primary transition-colors">Open to opportunities</p>
                 </div>
               </div>
             </div>

@@ -1,8 +1,10 @@
 // Skills.tsx
 "use client";
 import { Code, Database, Cpu, Globe, Wrench, Users } from "lucide-react";
+
 import SectionHeading from "@/components/ui/SectionHeading";
 import AnimatedSection from "@/components/ui/AnimatedSection";
+
 import { skills } from "@/lib/data/skills";
 
 const categoryIcons = {
@@ -25,7 +27,7 @@ const categoryPaths = {
 
 export default function Skills() {
   return (
-    <section id="skills" className="py-24 md:py-32 relative overflow-hidden">
+    <section id="skills" className="py-16 md:py-24 relative overflow-hidden">
       {/* Background Decor - Subtle Grid */}
       <div className="absolute inset-0 bg-[linear-gradient(to_right,#80808008_1px,transparent_1px),linear-gradient(to_bottom,#80808008_1px,transparent_1px)] bg-[size:32px_32px] [mask-image:radial-gradient(ellipse_60%_50%_at_50%_0%,#000_70%,transparent_100%)] pointer-events-none" />
 
@@ -56,7 +58,7 @@ export default function Skills() {
                         MOD_0{index + 1}
                       </span>
                     </div>
-                    <span className="font-mono text-[10px] text-zinc-500/70 group-hover:text-primary/70 transition-colors truncate max-w-[120px]">
+                    <span className="font-mono text-[10px] text-muted-foreground/80 group-hover:text-primary/70 transition-colors truncate max-w-[120px]">
                       {path}
                     </span>
                   </div>

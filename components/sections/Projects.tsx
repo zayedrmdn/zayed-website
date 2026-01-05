@@ -4,21 +4,19 @@ import Image from "next/image";
 import {
   Github,
   ExternalLink,
-  ArrowRight,
   Folder,
   FileCode,
   FileJson,
-  Star,
-  GitFork,
   Layout,
   Database,
   Globe,
   Circle
 } from "lucide-react";
-import { motion } from "framer-motion";
+
 import SectionHeading from "@/components/ui/SectionHeading";
 import AnimatedSection from "@/components/ui/AnimatedSection";
 import Button from "@/components/ui/Button";
+
 import { projects } from "@/lib/data/projects";
 
 // Helper to determine icon based on tech name
@@ -28,7 +26,7 @@ const getFileIcon = (tech: string) => {
   if (lower.includes('data') || lower.includes('sql') || lower.includes('mongo') || lower.includes('backend')) return <Database size={14} className="text-emerald-400" />;
   if (lower.includes('css') || lower.includes('tailwind') || lower.includes('style')) return <FileCode size={14} className="text-pink-400" />;
   if (lower.includes('json') || lower.includes('config')) return <FileJson size={14} className="text-yellow-400" />;
-  return <FileCode size={14} className="text-zinc-400" />;
+  return <FileCode size={14} className="text-muted-foreground/60" />;
 };
 
 export default function Projects() {
@@ -36,7 +34,7 @@ export default function Projects() {
   const otherProjects = projects.filter(project => !project.featured);
 
   return (
-    <section id="projects" className="py-24 md:py-32 bg-zinc-950/[0.02] relative overflow-hidden">
+    <section id="projects" className="py-16 md:py-24 bg-secondary/30 relative overflow-hidden">
 
       {/* Decorative Background */}
       <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-primary/5 rounded-full blur-[100px] pointer-events-none" />
@@ -74,7 +72,7 @@ export default function Projects() {
                       </div>
                       <div className="pl-4 border-l border-border/50 ml-1.5 space-y-1">
                         {/* Mock Folder Structure based on tags */}
-                        <div className="flex items-center gap-2 text-zinc-600">
+                        <div className="flex items-center gap-2 text-muted-foreground">
                           <Folder size={14} />
                           <span>src</span>
                         </div>
@@ -87,7 +85,7 @@ export default function Projects() {
                           ))}
                         </div>
                         <div className="flex items-center gap-2 pt-2">
-                          <FileCode size={14} className="text-zinc-600" />
+                          <FileCode size={14} className="text-muted-foreground" />
                           <span>README.md</span>
                         </div>
                       </div>
@@ -102,9 +100,9 @@ export default function Projects() {
                         <div className="h-full bg-blue-500" style={{ width: '45%' }} />
                         <div className="h-full bg-emerald-500" style={{ width: '30%' }} />
                         <div className="h-full bg-yellow-500" style={{ width: '15%' }} />
-                        <div className="h-full bg-zinc-500" style={{ width: '10%' }} />
+                        <div className="h-full bg-muted-foreground/20" style={{ width: '10%' }} />
                       </div>
-                      <div className="flex gap-3 text-[10px] text-zinc-500 font-mono">
+                      <div className="flex gap-3 text-[10px] text-muted-foreground font-mono">
                         <div className="flex items-center gap-1"><Circle size={6} className="fill-blue-500 text-blue-500" /> TypeScript</div>
                         <div className="flex items-center gap-1"><Circle size={6} className="fill-emerald-500 text-emerald-500" /> CSS</div>
                       </div>
@@ -131,7 +129,7 @@ export default function Projects() {
                           <Button size="sm" variant="outline" className="h-8 gap-2 px-3 bg-secondary/50 border-border/80 hover:bg-secondary hover:border-primary/50 text-xs sm:text-sm font-bold" onClick={() => window.open(project.githubUrl, '_blank')}>
                             <Github size={14} />
                             <span className="hidden sm:inline">Star</span>
-                            <span className="bg-zinc-200 dark:bg-zinc-800 px-1.5 py-0.5 rounded-md text-[10px] ml-1 opacity-70">
+                            <span className="bg-secondary px-1.5 py-0.5 rounded-md text-[10px] ml-1 opacity-70">
                               {Math.floor((index + 1) * 10 + 40)}
                             </span>
                           </Button>
@@ -157,7 +155,7 @@ export default function Projects() {
 
                       {project.image && (
                         <div className="relative mt-6 rounded-lg overflow-hidden border border-border/60 shadow-md group/image">
-                          <div className="absolute inset-0 bg-zinc-950/20 group-hover/image:bg-transparent transition-colors z-10" />
+                          <div className="absolute inset-0 bg-secondary/20 group-hover/image:bg-transparent transition-colors z-10" />
                           <Image
                             src={project.image}
                             alt={project.title}
@@ -199,14 +197,14 @@ export default function Projects() {
                   >
                     {/* Row 1: Header/Title */}
                     <div className="flex items-center gap-2 mb-2.5">
-                      <Folder size={14} className="text-zinc-700 dark:text-zinc-700 group-hover:text-amber-400/80 transition-colors" />
-                      <span className="font-mono text-xs sm:text-sm font-bold text-zinc-500 dark:text-zinc-500 group-hover:text-foreground transition-colors truncate">
+                      <Folder size={14} className="text-muted-foreground group-hover:text-amber-500 transition-colors" />
+                      <span className="font-mono text-xs sm:text-sm font-bold text-muted-foreground group-hover:text-foreground transition-colors truncate">
                         {project.title}
                       </span>
                     </div>
 
                     {/* Row 2: Description */}
-                    <p className="font-mono text-[10px] sm:text-[11px] text-zinc-500/80 dark:text-zinc-600 group-hover:text-zinc-500 dark:group-hover:text-zinc-400 line-clamp-2 leading-relaxed transition-colors mb-3 min-h-[2.5em]">
+                    <p className="font-mono text-[10px] sm:text-[11px] text-muted-foreground/80 group-hover:text-muted-foreground line-clamp-2 leading-relaxed transition-colors mb-3 min-h-[2.5em]">
                       {project.description}
                     </p>
 
@@ -214,20 +212,19 @@ export default function Projects() {
                     <div className="flex items-center justify-between pt-2 border-t border-border/10 group-hover:border-border/30 transition-colors">
                       <div className="flex items-center gap-2">
                         {/* Primary Tech Dot */}
-                        <div className={`w-1.5 h-1.5 rounded-full ${
-                          project.tags[0]?.toLowerCase().includes('react') ? 'bg-blue-500' :
+                        <div className={`w-1.5 h-1.5 rounded-full ${project.tags[0]?.toLowerCase().includes('react') ? 'bg-blue-500' :
                           project.tags[0]?.toLowerCase().includes('flutter') ? 'bg-sky-400' :
-                          project.tags[0]?.toLowerCase().includes('python') ? 'bg-yellow-500' :
-                          project.tags[0]?.toLowerCase().includes('java') ? 'bg-orange-500' :
-                          'bg-zinc-500'
-                        } opacity-40 group-hover:opacity-100 transition-opacity`} />
-                        <span className="font-mono text-[10px] text-zinc-500/70 group-hover:text-zinc-500 dark:group-hover:text-zinc-400 max-w-[80px] truncate">
+                            project.tags[0]?.toLowerCase().includes('python') ? 'bg-yellow-500' :
+                              project.tags[0]?.toLowerCase().includes('java') ? 'bg-orange-500' :
+                                'bg-muted-foreground/40'
+                          } opacity-40 group-hover:opacity-100 transition-opacity`} />
+                        <span className="font-mono text-[10px] text-muted-foreground/70 group-hover:text-muted-foreground max-w-[80px] truncate">
                           {project.tags[0]}
                         </span>
                       </div>
-                      
+
                       {/* Status / Link Icon */}
-                      <div className="text-zinc-800 dark:text-zinc-800 group-hover:text-zinc-600 dark:group-hover:text-zinc-400 transition-colors opacity-0 group-hover:opacity-100">
+                      <div className="text-muted-foreground/50 group-hover:text-muted-foreground transition-colors opacity-0 group-hover:opacity-100">
                         {project.githubUrl ? <Github size={10} /> : <ExternalLink size={10} />}
                       </div>
                     </div>
@@ -238,14 +235,14 @@ export default function Projects() {
 
             {/* Bottom Link - CLI Style */}
             <div className="text-center mt-12 opacity-40 hover:opacity-100 transition-opacity duration-500">
-              <a 
-                href="https://github.com/zayedrmdn" 
-                target="_blank" 
-                rel="noreferrer" 
+              <a
+                href="https://github.com/zayedrmdn"
+                target="_blank"
+                rel="noreferrer"
                 className="inline-flex items-center gap-2 font-mono text-xs text-muted-foreground hover:text-primary transition-colors cursor-pointer"
               >
-                <span className="text-zinc-500/80 select-none">user@zayed:~$</span> 
-                cd ~/github/all-repos 
+                <span className="text-muted-foreground/60 select-none">user@zayed:~$</span>
+                cd ~/github/all-repos
                 <span className="animate-pulse inline-block w-1.5 h-3 bg-current ml-1 align-middle opacity-50"></span>
               </a>
             </div>
@@ -253,6 +250,6 @@ export default function Projects() {
         )}
 
       </div>
-    </section>
+    </section >
   );
 }

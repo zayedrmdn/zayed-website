@@ -135,11 +135,11 @@ text-muted-foreground bg-primary border-border
 
 | Element | Spacing |
 |---------|---------|
-| Section vertical | `py-20 md:py-32` |
-| Container width | `max-w-6xl mx-auto px-4 md:px-6` |
+| Section vertical | `py-16 md:py-24` |
+| Container width | `max-w-7xl mx-auto px-4 md:px-6` |
 | Card padding | `p-6 md:p-8` |
 | Component gaps | `space-y-4` or `gap-4` |
-| Between sections | `space-y-20 md:space-y-32` |
+| Between sections | `space-y-16 md:space-y-24` |
 
 ### Grid System
 

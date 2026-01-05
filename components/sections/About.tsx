@@ -14,8 +14,9 @@ import {
   ChevronRight,
   Zap
 } from "lucide-react";
+
 import SectionHeading from "@/components/ui/SectionHeading";
-import AnimatedSection from "@/components/ui/AnimatedSection";
+
 import { personalInfo } from "@/lib/data/personal";
 
 // Type definition for typing effect
@@ -49,7 +50,7 @@ const TypewriterEffect = ({ text, delay = 0, speed = 30 }: { text: string, delay
 
 export default function About() {
   return (
-    <section id="about" className="py-24 md:py-32 relative overflow-hidden bg-zinc-950/[0.02]">
+    <section id="about" className="py-16 md:py-24 relative overflow-hidden bg-secondary/30">
       {/* Background Decorative Grid */}
       <div className="absolute inset-0 bg-[linear-gradient(rgba(0,0,0,0.02)_1px,transparent_1px),linear-gradient(90deg,rgba(0,0,0,0.02)_1px,transparent_1px)] bg-[size:40px_40px] [mask-image:radial-gradient(ellipse_60%_60%_at_50%_50%,black,transparent)] pointer-events-none" />
 
@@ -70,15 +71,15 @@ export default function About() {
             transition={{ duration: 0.6 }}
           >
             {/* Terminal Window */}
-            <div className="rounded-xl overflow-hidden bg-[#0c0c0c] border border-white/10 shadow-2xl shadow-indigo-500/5 group">
+            <div className="rounded-xl overflow-hidden bg-card border border-border shadow-xl group">
               {/* Terminal Header */}
-              <div className="flex items-center justify-between px-4 py-3 bg-white/5 border-b border-white/5 backdrop-blur-md">
+              <div className="flex items-center justify-between px-4 py-3 bg-secondary/50 border-b border-border backdrop-blur-md">
                 <div className="flex items-center gap-2">
                   <div className="w-3 h-3 rounded-full bg-red-500/80 border border-red-400/20" />
                   <div className="w-3 h-3 rounded-full bg-yellow-500/80 border border-yellow-400/20" />
                   <div className="w-3 h-3 rounded-full bg-green-500/80 border border-green-400/20" />
                 </div>
-                <div className="text-[10px] sm:text-xs font-mono text-zinc-500 flex items-center gap-2">
+                <div className="text-[10px] sm:text-xs font-mono text-muted-foreground flex items-center gap-2">
                   <Terminal size={12} />
                   <span>zayed@portfolio:~</span>
                 </div>
@@ -86,22 +87,22 @@ export default function About() {
               </div>
 
               {/* Terminal Body */}
-              <div className="p-6 font-mono text-sm sm:text-base space-y-6 min-h-[400px] text-zinc-300">
+              <div className="p-6 font-mono text-sm sm:text-base space-y-6 min-h-[400px] text-foreground">
 
                 {/* Command 1: cat bio */}
                 <div>
-                  <div className="flex items-center gap-2 text-emerald-400 mb-2">
+                  <div className="flex items-center gap-2 text-primary mb-2">
                     <ChevronRight size={16} />
                     <span className="font-bold">cat bio.txt</span>
                   </div>
-                  <div className="pl-4 border-l-2 border-zinc-800 space-y-4">
+                  <div className="pl-4 border-l-2 border-border space-y-4">
                     {personalInfo.bio.map((paragraph, index) => (
                       <motion.p
                         key={index}
                         initial={{ opacity: 0 }}
                         whileInView={{ opacity: 1 }}
                         transition={{ delay: 0.5 + (index * 0.2), duration: 0.5 }}
-                        className="leading-relaxed text-zinc-400"
+                        className="leading-relaxed text-muted-foreground"
                       >
                         {paragraph}
                       </motion.p>
@@ -111,7 +112,7 @@ export default function About() {
 
                 {/* Command 2: list highlights */}
                 <div className="pt-2">
-                  <div className="flex items-center gap-2 text-emerald-400 mb-2">
+                  <div className="flex items-center gap-2 text-primary mb-2">
                     <ChevronRight size={16} />
                     <span className="font-bold">
                       <TypewriterEffect text="list highlights --sort=grade" delay={1500} />
@@ -129,8 +130,8 @@ export default function About() {
                           transition={{ delay: 2.5 + (idx * 0.1) }}
                           className="flex items-center gap-3 group/item"
                         >
-                          <CheckCircle2 size={14} className="text-emerald-500/70 group-hover/item:text-emerald-400 transition-colors" />
-                          <span className="text-zinc-400 group-hover/item:text-zinc-200 transition-colors">
+                          <CheckCircle2 size={14} className="text-primary/70 group-hover/item:text-primary transition-colors" />
+                          <span className="text-muted-foreground group-hover/item:text-foreground transition-colors">
                             &quot;{item}&quot;
                           </span>
                         </motion.div>
@@ -140,8 +141,8 @@ export default function About() {
 
                 {/* Blinking Cursor */}
                 <div className="flex items-center gap-2 pt-4">
-                  <span className="text-emerald-500 font-bold">➜</span>
-                  <span className="w-2.5 h-5 bg-emerald-500/50 animate-pulse" />
+                  <span className="text-primary font-bold">➜</span>
+                  <span className="w-2.5 h-5 bg-primary/50 animate-pulse" />
                 </div>
               </div>
             </div>

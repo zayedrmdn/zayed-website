@@ -25,7 +25,7 @@
 
 | ❌ AVOID | Why It's Bad |
 |----------|--------------|
-| Inter, Roboto, Arial, Space Grotesk | Overused, screams "AI-generated" |
+| Generic Inter, Roboto, Arial | Clichéd, lacks clear character |
 | Purple gradients on white | Clichéd, lacks originality |
 | Floating dots/circles | Lazy decoration, adds nothing |
 | Cookie-cutter layouts | No context-specific character |
