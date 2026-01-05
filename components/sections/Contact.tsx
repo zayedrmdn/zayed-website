@@ -1,36 +1,33 @@
-// Contact.tsx
 "use client";
 import { useState, useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import toast from "react-hot-toast";
-import { Mail, Send, Github, Linkedin, MessageCircle } from "lucide-react";
+import { Send, Terminal, Loader2, AlertCircle } from "lucide-react";
 import SectionHeading from "@/components/ui/SectionHeading";
-import AnimatedSection from "@/components/ui/AnimatedSection";
-import Card from "@/components/ui/Card";
-import Button from "@/components/ui/Button";
 import { personalInfo } from "@/lib/data/personal";
 import { ContactFormData } from "@/lib/types";
 
 const contactSchema = z.object({
-  name: z.string().min(2, "Name must be at least 2 characters"),
-  email: z.string().email("Please enter a valid email address"),
-  inquiryType: z.string().min(1, "Please select an inquiry type"),
+  name: z.string().min(2, "Name is required"),
+  email: z.string().email("Invalid email address"),
+  inquiryType: z.string().min(1, "Please select a subject"),
   message: z.string().optional(),
 });
 
 const inquiryTypes = [
-  { value: "", label: "Select inquiry type" },
-  { value: "resume", label: "Request for Latest Resume" },
-  { value: "collaboration", label: "Collaboration Opportunity" },
+  { value: "", label: "-- SELECT SUBJECT --" },
+  { value: "resume", label: "Request Resume" },
+  { value: "collaboration", label: "Collaboration" },
   { value: "job", label: "Job Opportunity" },
-  { value: "project", label: "Project Discussion" },
-  { value: "general", label: "General Inquiry" },
+  { value: "project", label: "Project Inquiry" },
+  { value: "general", label: "General Question" },
 ];
 
 export default function Contact() {
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [terminalOutput, setTerminalOutput] = useState<string[]>([]);
 
   const {
     register,
@@ -43,7 +40,6 @@ export default function Contact() {
   });
 
   useEffect(() => {
-    // Custom event listener for inquiry selection
     const handleInquirySelection = (event: Event) => {
       const customEvent = event as CustomEvent;
       if (customEvent.detail === 'resume') {
@@ -57,198 +53,219 @@ export default function Contact() {
     };
   }, [setValue]);
 
+  const addLog = (msg: string) => {
+    setTerminalOutput(prev => [...prev.slice(-4), msg]);
+  };
+
   const onSubmit = async (data: ContactFormData) => {
     setIsSubmitting(true);
+    addLog(`> INITIATING_SEND...`);
 
     try {
       const response = await fetch("/api/contact", {
         method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify(data),
       });
 
-      if (!response.ok) {
-        throw new Error("Failed to send message");
-      }
+      if (!response.ok) throw new Error("SEND_FAILED");
 
-      toast.success("Message sent successfully! I'll get back to you soon.");
+      addLog(`> [200] MESSAGE_SENT`);
+      toast.success("Message sent successfully.");
       reset();
     } catch (error) {
-      toast.error("Failed to send message. Please try again or contact me directly.");
-      console.error("Contact form error:", error);
+      addLog(`> [ERR] CONNECTION_REFUSED`);
+      toast.error("Failed to send. Please retry.");
+      console.error(error);
     } finally {
       setIsSubmitting(false);
     }
   };
 
   return (
-    <section id="contact" className="py-20 md:py-32 px-4 sm:px-6 lg:px-8 bg-secondary/10">
-      <div className="max-w-6xl mx-auto">
+    <section id="contact" className="py-20 bg-background relative border-t border-border">
+      <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
         <SectionHeading
-          title="Get In Touch"
-          subtitle="Have a project in mind or want to collaborate? let's talk."
+          title="Secure Channel"
+          subtitle="./open_connection.sh --secure"
         />
 
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 lg:gap-12">
-          {/* Contact Information */}
-          <div className="lg:col-span-1 space-y-6">
-            <AnimatedSection delay={0.1}>
-              {/* Connector Card */}
-              <Card className="p-6 border-l-4 border-l-primary/60 shadow-md">
-                <h3 className="text-lg font-bold text-foreground mb-6 flex items-center gap-2">
-                  <Mail size={18} className="text-primary" />
-                  Contact Info
-                </h3>
+        <div className="mt-12 lg:mt-16 bg-card border border-border rounded-lg overflow-hidden flex flex-col lg:flex-row shadow-sm">
 
-                <div className="space-y-6">
-                  <div>
-                    <p className="text-xs font-bold text-foreground/70 uppercase tracking-wider mb-1">Email</p>
-                    <a
-                      href={`mailto:${personalInfo.email}`}
-                      className="text-foreground hover:text-primary transition-colors font-medium break-all"
-                    >
-                      {personalInfo.email}
-                    </a>
-                  </div>
+          {/* LEFT PANEL: STATUS MONITOR */}
+          <div className="w-full lg:w-1/3 bg-muted/30 p-6 sm:p-8 border-b lg:border-b-0 lg:border-r border-border font-mono text-xs sm:text-sm">
 
-                  <div>
-                    <p className="text-xs font-bold text-foreground/70 uppercase tracking-wider mb-1">Location</p>
-                    <p className="text-foreground font-medium">{personalInfo.location}</p>
-                  </div>
+            {/* Connection Status */}
+            <div className="mb-8 p-4 bg-primary/5 border border-primary/20 rounded-md">
+              <div className="flex items-center gap-3 mb-2">
+                <div className="w-2.5 h-2.5 bg-primary rounded-full animate-pulse ring-2 ring-primary/20" />
+                <span className="text-primary font-bold tracking-widest">SYSTEM ONLINE</span>
+              </div>
+              <p className="text-primary/80 font-medium text-[10px] leading-relaxed">
+                UPLINK_ESTABLISHED<br />
+                ENCRYPTION: AES-256<br />
+                LATENCY: 24ms
+              </p>
+            </div>
+
+            {/* Credentials */}
+            <div className="space-y-6">
+              <div>
+                <p className="text-muted-foreground mb-1 font-bold uppercase tracking-wider text-[10px]">Recipient</p>
+                <div className="text-foreground font-bold hover:text-primary transition-colors cursor-crosshair break-all">
+                  &lt;{personalInfo.email}&gt;
                 </div>
-              </Card>
-            </AnimatedSection>
+              </div>
 
-            <AnimatedSection delay={0.2}>
-              {/* Socials Card */}
-              <Card className="p-6 shadow-md">
-                <h4 className="font-bold text-foreground mb-4 text-sm">Connect on Socials</h4>
-                <div className="flex gap-3">
+              <div>
+                <p className="text-muted-foreground mb-1 font-bold uppercase tracking-wider text-[10px]">Location</p>
+                <div className="text-foreground font-medium">
+                  {personalInfo.location || "Unknown Sector"}
+                </div>
+              </div>
+
+              <div>
+                <p className="text-muted-foreground mb-2 font-bold uppercase tracking-wider text-[10px]">Connect</p>
+                <div className="flex flex-col gap-2">
                   {personalInfo.social.github && (
-                    <a
-                      href={personalInfo.social.github}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="p-3 bg-secondary text-foreground hover:bg-foreground hover:text-background rounded-xl transition-all duration-300 border border-border hover:border-transparent"
-                      aria-label="GitHub"
-                    >
-                      <Github size={20} />
+                    <a href={personalInfo.social.github} target="_blank" className="text-foreground hover:text-primary transition-colors flex items-center gap-2 group font-medium">
+                      <span className="text-muted-foreground group-hover:text-primary/50">./</span>github
                     </a>
                   )}
                   {personalInfo.social.linkedin && (
-                    <a
-                      href={personalInfo.social.linkedin}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="p-3 bg-secondary text-foreground hover:bg-[#0077b5] hover:text-white rounded-xl transition-all duration-300 border border-border hover:border-transparent"
-                      aria-label="LinkedIn"
-                    >
-                      <Linkedin size={20} />
+                    <a href={personalInfo.social.linkedin} target="_blank" className="text-foreground hover:text-primary transition-colors flex items-center gap-2 group font-medium">
+                      <span className="text-muted-foreground group-hover:text-primary/50">./</span>linkedin
                     </a>
                   )}
                 </div>
-                {/* Status Pulse */}
-                <div className="mt-6 pt-4 border-t border-border flex items-center gap-3">
-                  <span className="relative flex h-2.5 w-2.5">
-                    <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-emerald-500"></span>
-                    <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-500 opacity-20"></span>
-                  </span>
-                  <span className="text-xs font-bold text-foreground/70">Typically responds within 24h</span>
-                </div>
-              </Card>
-            </AnimatedSection>
+              </div>
+            </div>
+
+            {/* Terminal Output Log */}
+            <div className="mt-8 pt-4 border-t border-border h-24 flex flex-col justify-end text-[11px] text-muted-foreground font-mono">
+              {terminalOutput.map((log, i) => (
+                <div key={i} className="animate-in fade-in slide-in-from-left-2 font-medium">{log}</div>
+              ))}
+              <div className="flex items-center gap-1 font-bold">
+                <span className="text-primary">➜</span>
+                <span className="animate-pulse text-foreground">_</span>
+              </div>
+            </div>
+
           </div>
 
-          {/* Contact Form */}
-          <div className="lg:col-span-2">
-            <AnimatedSection delay={0.2}>
-              <Card className="p-6 md:p-8 border border-border shadow-lg">
-                <div className="flex items-center gap-3 mb-8 pb-4 border-b border-border">
-                  <MessageCircle className="text-primary" size={24} />
-                  <h3 className="text-xl font-bold text-foreground">
-                    Send a message
-                  </h3>
+          {/* RIGHT PANEL: COMMAND INPUT */}
+          <div className="w-full lg:w-2/3 p-6 sm:p-10 bg-background">
+            <form onSubmit={handleSubmit(onSubmit)} className="space-y-8 font-mono">
+
+              {/* Input Group */}
+              <div className="space-y-6">
+
+                <div className="group relative">
+                  <div className="flex items-baseline gap-2 text-sm sm:text-base mb-1.5 select-none text-muted-foreground">
+                    <span className="text-primary font-bold hidden sm:inline">guest@zayed:~$</span>
+                    <label htmlFor="name" className="font-bold text-foreground tracking-wide">FULL NAME</label>
+                  </div>
+                  <input
+                    {...register("name")}
+                    id="name"
+                    type="text"
+                    placeholder="Enter your name..."
+                    className="w-full bg-transparent border-b-2 border-border focus:border-primary py-2 text-foreground font-medium outline-none transition-colors placeholder:text-muted-foreground/30"
+                    autoComplete="off"
+                  />
+                  {errors.name && (
+                    <span className="absolute right-0 top-1 text-xs font-bold text-destructive flex items-center gap-1">
+                      <AlertCircle size={10} /> {errors.name.message}
+                    </span>
+                  )}
                 </div>
 
-                <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                    <div className="space-y-2">
-                      <label htmlFor="name" className="text-xs font-bold text-foreground uppercase tracking-wide ml-1">Full Name</label>
-                      <input
-                        {...register("name")}
-                        id="name"
-                        className="w-full px-4 py-3 bg-background border border-border rounded-lg focus:ring-1 focus:ring-primary focus:border-primary transition-all outline-none text-foreground placeholder:text-muted-foreground text-sm font-medium"
-                        placeholder="John Doe"
-                      />
-                      {errors.name && <p className="text-xs text-destructive ml-1">{errors.name.message}</p>}
-                    </div>
-                    <div className="space-y-2">
-                      <label htmlFor="email" className="text-xs font-bold text-foreground uppercase tracking-wide ml-1">Email Address</label>
-                      <input
-                        {...register("email")}
-                        id="email"
-                        type="email"
-                        className="w-full px-4 py-3 bg-background border border-border rounded-lg focus:ring-1 focus:ring-primary focus:border-primary transition-all outline-none text-foreground placeholder:text-muted-foreground text-sm font-medium"
-                        placeholder="john@example.com"
-                      />
-                      {errors.email && <p className="text-xs text-destructive ml-1">{errors.email.message}</p>}
-                    </div>
+                <div className="group relative">
+                  <div className="flex items-baseline gap-2 text-sm sm:text-base mb-1.5 select-none text-muted-foreground">
+                    <span className="text-primary font-bold hidden sm:inline">guest@zayed:~$</span>
+                    <label htmlFor="email" className="font-bold text-foreground tracking-wide">EMAIL ADDRESS</label>
                   </div>
+                  <input
+                    {...register("email")}
+                    id="email"
+                    type="email"
+                    placeholder="Enter your email..."
+                    className="w-full bg-transparent border-b-2 border-border focus:border-primary py-2 text-foreground font-medium outline-none transition-colors placeholder:text-muted-foreground/30"
+                    autoComplete="off"
+                  />
+                  {errors.email && (
+                    <span className="absolute right-0 top-1 text-xs font-bold text-destructive flex items-center gap-1">
+                      <AlertCircle size={10} /> {errors.email.message}
+                    </span>
+                  )}
+                </div>
 
-                  <div className="space-y-2">
-                    <label htmlFor="inquiryType" className="text-xs font-bold text-foreground uppercase tracking-wide ml-1">Inquiry Type</label>
-                    <div className="relative">
-                      <select
-                        {...register("inquiryType")}
-                        id="inquiryType"
-                        className="w-full px-4 py-3 bg-background border border-border rounded-lg focus:ring-1 focus:ring-primary focus:border-primary transition-all outline-none text-foreground appearance-none text-sm font-medium cursor-pointer"
-                      >
-                        {inquiryTypes.map((type) => (
-                          <option key={type.value} value={type.value} className="bg-background text-foreground">
-                            {type.label}
-                          </option>
-                        ))}
-                      </select>
-                      <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-4 text-muted-foreground">
-                        <svg className="h-4 w-4 fill-current" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
-                          <path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z" />
-                        </svg>
-                      </div>
-                    </div>
-                    {errors.inquiryType && <p className="text-xs text-destructive ml-1">{errors.inquiryType.message}</p>}
+                <div className="group relative">
+                  <div className="flex items-baseline gap-2 text-sm sm:text-base mb-1.5 select-none text-muted-foreground">
+                    <span className="text-primary font-bold hidden sm:inline">guest@zayed:~$</span>
+                    <label htmlFor="inquiryType" className="font-bold text-foreground tracking-wide">SUBJECT</label>
                   </div>
-
-                  <div className="space-y-2">
-                    <label htmlFor="message" className="text-xs font-bold text-foreground uppercase tracking-wide ml-1">Message</label>
-                    <textarea
-                      {...register("message")}
-                      id="message"
-                      rows={6}
-                      className="w-full px-4 py-3 bg-background border border-border rounded-lg focus:ring-1 focus:ring-primary focus:border-primary transition-all outline-none resize-none form-textarea text-foreground placeholder:text-muted-foreground text-sm leading-relaxed font-medium"
-                      placeholder="Tell me about your project..."
-                    />
-                    {errors.message && <p className="text-xs text-destructive ml-1">{errors.message.message}</p>}
-                  </div>
-
-                  <div className="pt-2">
-                    <Button
-                      type="submit"
-                      disabled={isSubmitting}
-                      isLoading={isSubmitting}
-                      size="lg"
-                      className="w-full md:w-auto bg-primary text-primary-foreground hover:bg-primary/90 font-bold"
+                  <div className="relative">
+                    <select
+                      {...register("inquiryType")}
+                      id="inquiryType"
+                      className="w-full bg-transparent border-b-2 border-border focus:border-primary py-2 text-foreground font-medium outline-none transition-colors cursor-pointer appearance-none rounded-none"
                     >
-                      <Send size={18} className="mr-2" />
-                      {isSubmitting ? "Sending..." : "Send Message"}
-                    </Button>
+                      {inquiryTypes.map((type) => (
+                        <option key={type.value} value={type.value} className="bg-background text-foreground">
+                          {type.label}
+                        </option>
+                      ))}
+                    </select>
                   </div>
+                  {errors.inquiryType && (
+                    <span className="absolute right-0 top-1 text-xs font-bold text-destructive flex items-center gap-1">
+                      <AlertCircle size={10} /> {errors.inquiryType.message}
+                    </span>
+                  )}
+                </div>
 
-                </form>
-              </Card>
-            </AnimatedSection>
+                <div className="group relative">
+                  <div className="flex items-baseline gap-2 text-sm sm:text-base mb-1.5 select-none text-muted-foreground">
+                    <span className="text-primary font-bold hidden sm:inline">guest@zayed:~$</span>
+                    <label htmlFor="message" className="font-bold text-foreground tracking-wide">MESSAGE</label>
+                  </div>
+                  <textarea
+                    {...register("message")}
+                    id="message"
+                    rows={4}
+                    placeholder="// Type your message here..."
+                    className="w-full bg-transparent border-b-2 border-border focus:border-primary py-2 text-foreground font-medium outline-none transition-colors resize-none placeholder:text-muted-foreground/30 leading-relaxed"
+                  />
+                </div>
+
+              </div>
+
+              {/* Submit Action */}
+              <div className="pt-6">
+                <button
+                  type="submit"
+                  disabled={isSubmitting}
+                  className="group relative inline-flex items-center gap-3 px-6 py-4 bg-foreground text-background hover:bg-primary hover:text-primary-foreground border-2 border-transparent hover:border-primary-foreground/20 rounded-sm transition-all duration-300 w-full md:w-auto overflow-hidden disabled:opacity-50 disabled:cursor-not-allowed shadow-md"
+                >
+                  {isSubmitting ? (
+                    <Loader2 size={16} className="animate-spin text-inherit" />
+                  ) : (
+                    <Terminal size={16} className="text-inherit" />
+                  )}
+
+                  <span className="font-bold tracking-widest text-xs uppercase relative z-10">
+                    {isSubmitting ? "SENDING..." : "SEND MESSAGE"}
+                  </span>
+
+                  <Send size={14} className="opacity-0 group-hover:opacity-100 -translate-x-2 group-hover:translate-x-0 transition-all duration-300 text-inherit" />
+                </button>
+              </div>
+
+            </form>
           </div>
+
         </div>
       </div>
     </section>

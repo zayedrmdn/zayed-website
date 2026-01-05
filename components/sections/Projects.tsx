@@ -178,57 +178,76 @@ export default function Projects() {
 
         {/* Other Projects Archive */}
         {otherProjects.length > 0 && (
-          <div className="mt-32">
-            <SectionHeading
-              title="Archived Projects"
-              subtitle="Experimental builds and utilities"
-              className="mb-12 text-center"
-            />
+          <div className="mt-32 w-full max-w-7xl mx-auto">
+            {/* Subtle Divider Header */}
+            <div className="flex items-center gap-4 mb-10 opacity-60">
+              <div className="h-px bg-border/60 flex-1" />
+              <span className="font-mono text-xs sm:text-sm text-muted-foreground/80 tracking-widest lowercase">
+                ~/archived-experiments
+              </span>
+              <div className="h-px bg-border/60 flex-1" />
+            </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-3">
               {otherProjects.map((project, index) => (
-                <AnimatedSection key={project.id} delay={0.2 + (index * 0.05)}>
-                  <div className="group bg-card border border-border/60 hover:border-primary/50 rounded-lg p-5 transition-all duration-300 hover:shadow-lg hover:-translate-y-1 h-full flex flex-col">
-                    <div className="flex justify-between items-start mb-4">
-                      <div className="flex items-center gap-2 text-foreground font-bold text-sm">
-                        <Folder size={16} className="text-muted-foreground group-hover:text-primary transition-colors" />
-                        <span className="group-hover:text-primary transition-colors">{project.title}</span>
-                      </div>
-                      <div className="flex gap-2 text-muted-foreground">
-                        {project.liveUrl && <ExternalLink size={14} className="hover:text-foreground cursor-pointer" onClick={() => window.open(project.liveUrl, '_blank')} />}
-                      </div>
+                <AnimatedSection key={project.id} delay={0.1 + (index * 0.05)}>
+                  <a
+                    href={project.liveUrl || project.githubUrl || '#'}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="group block h-full p-4 rounded-lg border border-transparent hover:border-border/40 hover:bg-secondary/20 transition-all duration-300"
+                  >
+                    {/* Row 1: Header/Title */}
+                    <div className="flex items-center gap-2 mb-2.5">
+                      <Folder size={14} className="text-zinc-700 dark:text-zinc-700 group-hover:text-amber-400/80 transition-colors" />
+                      <span className="font-mono text-xs sm:text-sm font-bold text-zinc-500 dark:text-zinc-500 group-hover:text-foreground transition-colors truncate">
+                        {project.title}
+                      </span>
                     </div>
 
-                    <p className="text-xs sm:text-sm text-muted-foreground leading-relaxed mb-4 flex-grow font-medium line-clamp-3">
+                    {/* Row 2: Description */}
+                    <p className="font-mono text-[10px] sm:text-[11px] text-zinc-500/80 dark:text-zinc-600 group-hover:text-zinc-500 dark:group-hover:text-zinc-400 line-clamp-2 leading-relaxed transition-colors mb-3 min-h-[2.5em]">
                       {project.description}
                     </p>
 
-                    <div className="flex items-center gap-3 mt-auto pt-4 border-t border-border/30 text-[10px] text-zinc-500 font-mono">
-                      <div className="flex items-center gap-1">
-                        <Circle size={8} className="fill-zinc-500" />
-                        {project.tags[0] || "JavaScript"}
+                    {/* Row 3: Meta/Tech */}
+                    <div className="flex items-center justify-between pt-2 border-t border-border/10 group-hover:border-border/30 transition-colors">
+                      <div className="flex items-center gap-2">
+                        {/* Primary Tech Dot */}
+                        <div className={`w-1.5 h-1.5 rounded-full ${
+                          project.tags[0]?.toLowerCase().includes('react') ? 'bg-blue-500' :
+                          project.tags[0]?.toLowerCase().includes('flutter') ? 'bg-sky-400' :
+                          project.tags[0]?.toLowerCase().includes('python') ? 'bg-yellow-500' :
+                          project.tags[0]?.toLowerCase().includes('java') ? 'bg-orange-500' :
+                          'bg-zinc-500'
+                        } opacity-40 group-hover:opacity-100 transition-opacity`} />
+                        <span className="font-mono text-[10px] text-zinc-500/70 group-hover:text-zinc-500 dark:group-hover:text-zinc-400 max-w-[80px] truncate">
+                          {project.tags[0]}
+                        </span>
                       </div>
-                      <div className="flex items-center gap-1">
-                        <Star size={10} /> {Math.floor((index * 3) + 2)}
-                      </div>
-                      <div className="flex items-center gap-1">
-                        <GitFork size={10} /> {Math.floor((index * 2) + 1)}
+                      
+                      {/* Status / Link Icon */}
+                      <div className="text-zinc-800 dark:text-zinc-800 group-hover:text-zinc-600 dark:group-hover:text-zinc-400 transition-colors opacity-0 group-hover:opacity-100">
+                        {project.githubUrl ? <Github size={10} /> : <ExternalLink size={10} />}
                       </div>
                     </div>
-                  </div>
+                  </a>
                 </AnimatedSection>
               ))}
             </div>
 
-            <div className="text-center mt-12">
-              <Button
-                onClick={() => window.open('https://github.com/zayedrmdn', '_blank')}
-                variant="outline"
-                className="gap-2 group border-border hover:border-primary text-foreground font-mono text-xs sm:text-sm"
+            {/* Bottom Link - CLI Style */}
+            <div className="text-center mt-12 opacity-40 hover:opacity-100 transition-opacity duration-500">
+              <a 
+                href="https://github.com/zayedrmdn" 
+                target="_blank" 
+                rel="noreferrer" 
+                className="inline-flex items-center gap-2 font-mono text-xs text-muted-foreground hover:text-primary transition-colors cursor-pointer"
               >
-                <Github size={16} />
-                github.com/zayedrmdn
-              </Button>
+                <span className="text-zinc-500/80 select-none">user@zayed:~$</span> 
+                cd ~/github/all-repos 
+                <span className="animate-pulse inline-block w-1.5 h-3 bg-current ml-1 align-middle opacity-50"></span>
+              </a>
             </div>
           </div>
         )}

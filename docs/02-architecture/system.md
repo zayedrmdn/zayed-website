@@ -1,6 +1,6 @@
 # System Architecture
 
-> Project structure, tech stack, key files, and data flow.
+> Project structure, tech stack, and the **Terminal/Premium** thematic architecture.
 
 ## Tech Stack
 
@@ -15,6 +15,18 @@
 | Email | Resend API |
 | Icons | Lucide React |
 | Deployment | Vercel |
+
+## Design Architecture: "The Secure System"
+
+The portfolio is designed as an immersive terminal/system interface, using specific metaphors for each section:
+
+| Section | Metaphor | Key Features |
+|---------|----------|--------------|
+| **Experience** | Execution History | PID tracking, status logs, terminal-style timelines. |
+| **Featured Work**| Git Repository | File trees, branch labels, README previews. |
+| **Other Projects**| File Index | High-density grid, low-contrast "hidden" metadata. |
+| **Skills** | System Modules | `MOD_0X` headers, filesystem paths, status lights. |
+| **Contact** | Secure Channel | Split-pane CLI, encrypted uplink metaphors, live logging. |
 
 ## Project Structure
 
@@ -37,10 +49,10 @@ my-portfolio/
 │   ├── sections/
 │   │   ├── Hero.tsx             # Hero section with intro
 │   │   ├── About.tsx            # About section
-│   │   ├── Experience.tsx       # Work experience timeline
-│   │   ├── Projects.tsx         # Featured projects grid
-│   │   ├── Skills.tsx           # Technical skills
-│   │   └── Contact.tsx          # Contact form
+│   │   ├── Experience.tsx       # "Execution History" timeline
+│   │   ├── Projects.tsx         # "Git Repository" & "File Index"
+│   │   ├── Skills.tsx           # "System Modules"
+│   │   └── Contact.tsx          # "Secure Channel"
 │   │
 │   └── ui/
 │       ├── Button.tsx           # Reusable button component
@@ -62,14 +74,7 @@ my-portfolio/
 │   ├── constants.ts             # App-wide constants
 │   └── utils.ts                 # Utility functions
 │
-├── public/
-│   ├── images/
-│   │   ├── profile/             # Profile photos
-│   │   └── projects/            # Project screenshots
-│   └── Zayed_Resume.pdf         # Resume download
-│
-├── docs/                        # Documentation (you are here)
-│
+├── public/                      # Static assets
 └── [config files]               # next.config.ts, tailwind.config.ts, etc.
 ```
 
@@ -87,28 +92,12 @@ my-portfolio/
 
 ```
 lib/data/*.ts (static data)
-       ↓
-components/sections/*.tsx (render data)
-       ↓
+        ↓
+components/sections/*.tsx (render data + apply system metaphor)
+        ↓
 app/page.tsx (compose sections)
-       ↓
+        ↓
 app/layout.tsx (wrap with providers)
-```
-
-## Component Hierarchy
-
-```
-layout.tsx
-├── ThemeProvider
-│   ├── Navbar
-│   ├── page.tsx
-│   │   ├── Hero
-│   │   ├── About
-│   │   ├── Experience
-│   │   ├── Projects
-│   │   ├── Skills
-│   │   └── Contact
-│   └── Footer
 ```
 
 ## API Routes
@@ -122,9 +111,9 @@ layout.tsx
 ### New Section
 
 1. Create component in `components/sections/NewSection.tsx`
-2. Use `AnimatedSection` wrapper for scroll animations
-3. Import in `app/page.tsx`
-4. Add data file in `lib/data/` if needed
+2. Follow the **Terminal/Premium** design philosophy (see `docs/01-rules/design-philosophy.md`)
+3. Use `AnimatedSection` wrapper for scroll animations
+4. Import in `app/page.tsx`
 
 ### New Data Type
 

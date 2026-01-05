@@ -124,47 +124,9 @@ const item = {
 >
 ```
 
-### Timing Reference
-
-| Element | Duration | Delay |
-|---------|----------|-------|
-| Page load elements | 0.6-0.8s | 0-0.4s stagger |
-| Scroll reveal | 0.6s | 0s |
-| Card hover | 0.3s | 0s |
-| Button tap | 0.15s | 0s |
-
-### NEVER Do
-
-```tsx
-// ❌ Infinite animations (distracting)
-transition={{ repeat: Infinity }}
-
-// ❌ Slow animations (blocks interaction)
-transition={{ duration: 3 }}
-
-// ❌ Large movements (nauseating)
-initial={{ x: -200 }}
-
-// ❌ Animate on every scroll (annoying)
-viewport={{ once: false }}
-```
-
-### Accessibility
-
-Always include in `globals.css`:
-
-```css
-@media (prefers-reduced-motion: reduce) {
-  *, *::before, *::after {
-    animation-duration: 0.01ms !important;
-    transition-duration: 0.01ms !important;
-  }
-}
-```
-
 ---
 
-## Part 4: Atmospheric Standards
+## Part 3: Atmospheric Standards
 
 To elevate the UI beyond generic digital "flatness", use layered atmospheric effects.
 
@@ -185,21 +147,72 @@ Use Framer Motion `useMotionValue` and `useMotionTemplate` for radial gradients.
 
 ---
 
-## Part 3: Component Patterns
+## Part 4: Terminal/Premium Component Patterns
+
+To maintain the "System Interface" aesthetic, use these specialized patterns.
+
+### 1. System Modules (Skills/Status)
+Used for categorized lists or capability modules.
+
+- **Header**: `font-mono text-[10px] tracking-widest text-primary` with a light indicator.
+- **Path metadata**: `font-mono text-[10px] text-muted-foreground/50` (e.g., `~/src/languages`).
+- **Tags**: Monospace, high-contrast, bold.
+
+```tsx
+<div className="border border-border/60 bg-card/60 backdrop-blur-sm rounded-xl overflow-hidden p-4">
+  <div className="flex justify-between items-center mb-4 border-b border-border/40 pb-2">
+    <div className="flex gap-2 items-center">
+      <div className="w-2 h-2 rounded-full bg-primary animate-pulse" />
+      <span className="font-mono text-[10px] font-bold">MOD_01</span>
+    </div>
+    <span className="font-mono text-[10px] text-muted-foreground">~/src/core</span>
+  </div>
+  {/* Content */}
+</div>
+```
+
+### 2. Secure Channel (Contact/Forms)
+Used for user input and data transmission.
+
+- **Split-Pane**: Left monitor (status) vs Right input (command line).
+- **Prompt**: `guest@zayed:~$` in primary color.
+- **Labels**: High-contrast, standard English (HR-friendly).
+- **Button**: `SEND MESSAGE` or `EXECUTE_TRANSMISSION`.
+
+```tsx
+<div className="flex flex-col lg:flex-row border border-border rounded-lg overflow-hidden">
+  {/* Monitor Panel */}
+  <div className="w-1/3 bg-muted/30 border-r border-border p-6 font-mono text-xs">
+    <div className="text-foreground font-bold">SYSTEM ONLINE</div>
+    {/* Status logs */}
+  </div>
+  
+  {/* Input Panel */}
+  <div className="w-2/3 p-10 bg-background">
+    <div className="flex items-baseline gap-2 mb-2">
+       <span className="text-primary font-bold">guest@zayed:~$</span>
+       <label className="font-bold">FULL NAME</label>
+    </div>
+    <input className="w-full bg-transparent border-b-2 border-border focus:border-primary" />
+  </div>
+</div>
+```
+
+### 3. Execution Logs (Experience)
+Used for timelines or sequence-based data.
+
+- **PID**: Randomly generated deterministic ID (e.g., `PID:8492`).
+- **Timestamp**: High-contrast bold date.
+- **Status badges**: `RUNNING`, `SUCCESS`, `DEPLOYED`.
+
+---
+
+## Part 5: Core UI Components
 
 ### Reusable AnimatedSection
 
 ```tsx
 // components/ui/AnimatedSection.tsx
-"use client";
-import { motion } from 'framer-motion';
-
-interface Props {
-  children: React.ReactNode;
-  delay?: number;
-  className?: string;
-}
-
 export function AnimatedSection({ children, delay = 0, className = "" }: Props) {
   return (
     <motion.div
@@ -215,44 +228,10 @@ export function AnimatedSection({ children, delay = 0, className = "" }: Props) 
 }
 ```
 
-### Card Component
-
-```tsx
-// components/ui/Card.tsx
-import { motion } from 'framer-motion';
-
-interface CardProps {
-  children: React.ReactNode;
-  hover?: boolean;
-  className?: string;
-}
-
-export function Card({ children, hover = true, className = "" }: CardProps) {
-  const baseStyles = "bg-card border border-border rounded-xl p-6";
-  const hoverStyles = hover 
-    ? "hover:shadow-lg hover:-translate-y-1 transition-all duration-300" 
-    : "";
-
-  return (
-    <motion.div 
-      className={`${baseStyles} ${hoverStyles} ${className}`}
-      whileHover={hover ? { y: -5 } : undefined}
-    >
-      {children}
-    </motion.div>
-  );
-}
-```
-
 ### Section Heading
 
 ```tsx
 // components/ui/SectionHeading.tsx
-interface Props {
-  title: string;
-  subtitle?: string;
-}
-
 export function SectionHeading({ title, subtitle }: Props) {
   return (
     <div className="text-center mb-12">
@@ -260,7 +239,7 @@ export function SectionHeading({ title, subtitle }: Props) {
         {title}
       </h2>
       {subtitle && (
-        <p className="mt-4 text-lg text-muted-foreground max-w-2xl mx-auto">
+        <p className="font-mono text-xs text-primary tracking-widest uppercase mb-2">
           {subtitle}
         </p>
       )}
@@ -271,56 +250,17 @@ export function SectionHeading({ title, subtitle }: Props) {
 
 ---
 
-## Part 4: Form Implementation
-
-### React Hook Form + Zod
-
-```tsx
-import { useForm } from 'react-hook-form';
-import { zodResolver } from '@hookform/resolvers/zod';
-import { z } from 'zod';
-
-const schema = z.object({
-  name: z.string().min(2, "Name required"),
-  email: z.string().email("Invalid email"),
-  message: z.string().min(10, "Message too short"),
-});
-
-type FormData = z.infer<typeof schema>;
-
-export function ContactForm() {
-  const { register, handleSubmit, formState: { errors } } = useForm<FormData>({
-    resolver: zodResolver(schema),
-  });
-
-  const onSubmit = async (data: FormData) => {
-    const res = await fetch('/api/contact', {
-      method: 'POST',
-      body: JSON.stringify(data),
-    });
-    // Handle response
-  };
-
-  return (
-    <form onSubmit={handleSubmit(onSubmit)}>
-      <input {...register('name')} />
-      {errors.name && <span>{errors.name.message}</span>}
-      {/* ... */}
-    </form>
-  );
-}
-```
-
----
-
 ## Quick Checklist
 
 Before implementing any feature:
 
-- [ ] Uses semantic CSS variable classes
+- [ ] Does it follow a system metaphor (Module, Channel, Repository, Log)?
+- [ ] Uses semantic CSS variable classes (no hardcoded colors)
 - [ ] Animations use only `opacity`, `x`, `y`, `scale`, `rotate`
 - [ ] All animations under 1 second
 - [ ] `viewport={{ once: true }}` for scroll animations
-- [ ] Mobile tap states with `whileTap`
-- [ ] Reduced motion preference respected
+- [ ] Mobile-first responsive classes used
+- [ ] Typography follows hierarchy (monospaced for technical accents)
+- [ ] Design feels premium and intentional (no "AI slop")
+- [ ] Form labels are understandable for non-technical users
 - [ ] Theme UI checks `mounted` state

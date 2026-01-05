@@ -13,6 +13,7 @@
 | What is the purpose? | Understand problem, users, use case |
 | What is the aesthetic direction? | Commit to a BOLD, specific vision |
 | What makes this unforgettable? | Define the ONE differentiating factor |
+| Is it still usable? | Balance complex metaphors with clarity for all users (e.g., HR-friendly labels) |
 
 **Critical Principle**: Both refined minimalism and bold maximalism work—the key is **intentionality** and **full commitment**. Half-measures create forgettable designs.
 
